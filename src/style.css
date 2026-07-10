@@ -364,7 +364,7 @@ body {
   margin-bottom: 26px;
 }
 
-.block h3 {
+h3.lesson-h {
   font-size: 17px;
   margin-bottom: 10px;
   letter-spacing: -0.01em;
@@ -473,14 +473,13 @@ caption {
   border: 1px solid var(--line);
 }
 
-.examples div {
+.examples > .item {
   background: var(--panel);
   padding: 10px 14px;
   font-size: 14.5px;
 }
 
-.examples div span {
-  display: block;
+.examples > .item > .uz {
   color: var(--ink-faint);
   font-size: 13px;
 }
@@ -491,7 +490,7 @@ caption {
   gap: 8px;
 }
 
-.vocab div {
+.vocab > .item {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -499,8 +498,7 @@ caption {
   font-size: 14px;
 }
 
-.vocab div span {
-  display: block;
+.vocab > .item > .uz {
   color: var(--ink-faint);
   font-size: 12.5px;
 }
@@ -530,10 +528,23 @@ caption {
   margin-right: 6px;
 }
 
-.dialog .line span {
-  display: block;
+.dialog .line .uz {
   color: var(--ink-faint);
   font-size: 13px;
+}
+
+.quiz {
+  margin-bottom: 26px;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.match .cell.shake {
+  animation: shake 0.25s ease;
 }
 
 /* ---------- Exercises ---------- */

@@ -53,6 +53,9 @@ function renderStatic(b) {
     }
 
     case "table": {
+      // Keng jadval telefonda yon tomonga suriladi — maslahat CSS orqali
+      // faqat tor ekranda ko'rinadi.
+      const holder = el("div");
       const wrap = el("div", "table-scroll");
       const table = el("table");
       if (b.caption) table.append(el("caption", null, b.caption));
@@ -71,7 +74,11 @@ function renderStatic(b) {
       });
       table.append(tbody);
       wrap.append(table);
-      return wrap;
+      holder.append(wrap);
+      if ((b.head?.length ?? 0) > 2) {
+        holder.append(el("p", "scrollhint", "← jadvalni yon tomonga suring →"));
+      }
+      return holder;
     }
 
     case "examples": {

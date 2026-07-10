@@ -12,13 +12,14 @@ import { declineNoun, declineAdjective } from "./decline.js";
 const nounForms = (item) =>
   item.f ?? declineNoun(item.ru, { gender: item.g, anim: Boolean(item.a), gen: item.gen, ins: item.ins }).forms;
 
+// Har kelishikning o'z rangi bor — dizaynning asosiy g'oyasi.
 const CASE_NAMES = [
-  ["Имени́тельный", "Bosh", "Кто? Что?"],
-  ["Роди́тельный", "Qaratqich", "Кого́? Чего́?"],
-  ["Да́тельный", "Jo'nalish", "Кому́? Чему́?"],
-  ["Вини́тельный", "Tushum", "Кого́? Что?"],
-  ["Твори́тельный", "Vosita", "Кем? Чем?"],
-  ["Предло́жный", "Predlog", "О ком? О чём?"],
+  ["Имени́тельный", "Bosh", "Кто? Что?", "case-nom"],
+  ["Роди́тельный", "Qaratqich", "Кого́? Чего́?", "case-gen"],
+  ["Да́тельный", "Jo'nalish", "Кому́? Чему́?", "case-dat"],
+  ["Вини́тельный", "Tushum", "Кого́? Что?", "case-acc"],
+  ["Твори́тельный", "Vosita", "Кем? Чем?", "case-ins"],
+  ["Предло́жный", "Predlog", "О ком? О чём?", "case-prep"],
 ];
 
 const PRONOUNS = ["я", "ты", "он / она́", "мы", "вы", "они́"];
@@ -65,10 +66,10 @@ function nounDetail(item) {
   table.innerHTML = `<thead><tr><th>Kelishik</th><th>Savol</th><th>Shakl</th><th>Ibora</th></tr></thead>`;
   const tb = el("tbody");
   forms.forEach((form, i) => {
-    const [ru, uz, q] = CASE_NAMES[i];
+    const [ru, uz, q, cls] = CASE_NAMES[i];
     const tr = el("tr");
     tr.innerHTML = `
-      <td>${ru}<br><small>${uz}</small></td>
+      <td class="casecell ${cls}">${ru}<br><small>${uz}</small></td>
       <td><small>${q}</small></td>
       <td><b class="ru">${form}</b></td>
       <td><span class="dim">${nounPhrase(i, form, anim)}</span></td>`;
@@ -97,10 +98,10 @@ function adjectiveDetail(entry) {
   const table = el("table");
   table.innerHTML = `<thead><tr><th>Kelishik</th><th>он</th><th>она́</th><th>оно́</th><th>они́</th></tr></thead>`;
   const tb = el("tbody");
-  CASE_NAMES.forEach(([ru, uz], i) => {
+  CASE_NAMES.forEach(([ru, uz, , cls], i) => {
     const tr = el("tr");
     tr.innerHTML = `
-      <td>${ru}<br><small>${uz}</small></td>
+      <td class="casecell ${cls}">${ru}<br><small>${uz}</small></td>
       <td class="ru">${item.m[i]}</td>
       <td class="ru">${item.f[i]}</td>
       <td class="ru">${item.n[i]}</td>
@@ -110,6 +111,7 @@ function adjectiveDetail(entry) {
   table.append(tb);
   wrap.append(table);
   box.append(wrap);
+  box.append(el("p", "scrollhint", "← jadvalni yon tomonga suring →"));
 
   box.append(
     el(

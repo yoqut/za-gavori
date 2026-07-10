@@ -3,7 +3,6 @@
  */
 
 import { categories, flatLessons, totalExercises } from "../src/data/index.js";
-import { nouns, adjectives } from "../src/data/paradigms.js";
 import dictNouns, { skipped as dictSkipped } from "../src/data/dict-nouns.js";
 import dictAdjectives from "../src/data/dict-adjectives.js";
 import dictVerbs from "../src/data/dict-verbs.js";
@@ -50,20 +49,6 @@ for (const cat of categories) {
   }
 }
 
-/* --- Paradigmalar (trenajyor uchun) --- */
-for (const n of nouns) {
-  if (n.forms.length !== 6) errors.push(`paradigma ${n.w}: 6 ta shakl bo'lishi kerak`);
-  const [nom, gen, , acc] = n.forms;
-  if (n.gender !== "она́") {
-    const expected = n.animate ? gen : nom;
-    if (acc !== expected)
-      errors.push(`paradigma ${n.w}: вин.="${acc}", lekin "${expected}" kutilgan (jonli=${n.animate})`);
-  }
-}
-for (const a of adjectives) {
-  if (a.m?.length !== 6 || a.f?.length !== 6) errors.push(`paradigma ${a.w}: sifat shakllari noto'g'ri`);
-}
-
 /* --- Lug'at --- */
 const CYRILLIC = /[а-яёА-ЯЁ]/;
 
@@ -102,10 +87,7 @@ for (const v of dictVerbs) {
 }
 
 /* --- Natija --- */
-console.log(
-  `${categories.length} kategoriya · ${flatLessons.length} dars · ${totalExercises} mashq · ` +
-    `${nouns.length} ot + ${adjectives.length} sifat paradigmasi`,
-);
+console.log(`${categories.length} kategoriya · ${flatLessons.length} dars · ${totalExercises} mashq`);
 console.log(
   `lug'at: ${dictVerbs.length} fe'l · ${dictNouns.length} ot · ${dictAdjectives.length} sifat · ` +
     `${dictSkipped.length} ot jadvalsiz`,

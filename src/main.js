@@ -1,7 +1,6 @@
 import "./style.css";
 import { categories, findLesson, flatLessons, lessonIndex, exerciseCount, totalLessons, totalExercises } from "./data/index.js";
 import { renderBlock, renderExercise, isExercise } from "./render.js";
-import { renderTrainer } from "./trainer.js";
 import * as progress from "./progress.js";
 
 const app = document.querySelector("#app");
@@ -12,7 +11,6 @@ function parseRoute() {
   const hash = location.hash.replace(/^#\/?/, "");
   if (!hash) return { name: "home" };
   const [kind, catId, lessonId] = hash.split("/");
-  if (kind === "trainer") return { name: "trainer" };
   if (kind === "dict") return { name: "dict" };
   if (kind === "lesson" && catId && lessonId) return { name: "lesson", catId, lessonId };
   return { name: "home" };
@@ -48,18 +46,8 @@ function renderSidebar(route) {
     <div class="bar"><i style="width:${pct}%"></i></div>`;
   bar.append(box);
 
-  const trainerBtn = document.createElement("button");
-  trainerBtn.className = "nav-item trainer-link";
-  if (route.name === "trainer") trainerBtn.classList.add("active");
-  trainerBtn.innerHTML = `<span class="tick" style="border:0">🎯</span><span>Kelishik trenajyori</span>`;
-  trainerBtn.addEventListener("click", () => {
-    go("/trainer");
-    bar.classList.remove("open");
-  });
-  bar.append(trainerBtn);
-
   const dictBtn = document.createElement("button");
-  dictBtn.className = "nav-item trainer-link";
+  dictBtn.className = "nav-item tool-link";
   if (route.name === "dict") dictBtn.classList.add("active");
   dictBtn.innerHTML = `<span class="tick" style="border:0">📖</span><span>Lug'at</span>`;
   dictBtn.addEventListener("click", () => {
@@ -101,6 +89,7 @@ function renderHome() {
   const hero = document.createElement("div");
   hero.className = "hero";
   hero.innerHTML = `
+    <div class="kicker">A1–A2 · Rus tili · To'liq kurs</div>
     <h1>Rus tilini noldan o'rganamiz</h1>
     <p>
       «Русский язык для начинающих» darsligi asosida tuzilgan to'liq kurs.
@@ -117,18 +106,6 @@ function renderHome() {
     <div class="stat"><b>${done ? `${done} / ${totalLessons}` : "0"}</b><span>bajarildi · ${correct} to'g'ri javob</span></div>`;
   wrap.append(stats);
 
-  const trainerCard = document.createElement("div");
-  trainerCard.className = "cat-card";
-  trainerCard.innerHTML = `
-    <header><span class="emoji">🎯</span><h2>Kelishik trenajyori</h2></header>
-    <p>Darslardagi mashqlar tugadimi? Bu yerda savollar tasodifiy yasaladi va hech qachon tugamaydi.
-       Otlar va sifatlarni istalgan kelishikda mashq qiling.</p>`;
-  const trainerBtn = document.createElement("button");
-  trainerBtn.className = "btn";
-  trainerBtn.textContent = "Mashqni boshlash →";
-  trainerBtn.addEventListener("click", () => go("/trainer"));
-  trainerCard.append(trainerBtn);
-  wrap.append(trainerCard);
 
   categories.forEach((cat) => {
     const card = document.createElement("div");
@@ -335,7 +312,6 @@ function render() {
   main.append(menuBtn);
 
   if (route.name === "lesson") main.append(renderLessonPage(route));
-  else if (route.name === "trainer") main.append(renderTrainer());
   else if (route.name === "dict") main.append(renderDictionaryLazy());
   else main.append(renderHome());
   app.append(sidebar, main);

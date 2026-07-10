@@ -157,6 +157,72 @@ export default {
           ],
         },
 
+        { t: "h", text: "Sifat predlog kelishigida" },
+        {
+          t: "p",
+          text: "Ot o'zgardi — endi uning oldidagi sifat ham o'zgarishi kerak. Yaxshi xabar: sifatda faqat <b>ikkita</b> shakl bor. Erkak va o'rta jins bitta qo'shimchani baham ko'radi.",
+        },
+        {
+          t: "table",
+          caption: "Како́й? → О како́м?",
+          head: ["Jins", "Bosh kelishik", "Predlog kelishigi", "Qo'shimcha"],
+          rows: [
+            ["<b>он / оно́</b>", "но́вый, но́вое<br>ру́сский<br>большо́й", "в но́в<b class='hl'>ом</b><br>в ру́сск<b class='hl'>ом</b><br>в больш<b class='hl'>о́м</b>", "<b>-ом</b>"],
+            ["", "хоро́ший<br>дома́шний", "в хоро́ш<b class='hl'>ем</b><br>в дома́шн<b class='hl'>ем</b>", "<b>-ем</b><br><small>yumshoq va ж,ч,ш,щ dan keyin</small>"],
+            ["<b>она́</b>", "но́вая, ру́сская, больша́я", "в но́в<b class='hl'>ой</b>, в ру́сск<b class='hl'>ой</b>, в больш<b class='hl'>о́й</b>", "<b>-ой</b>"],
+            ["", "хоро́шая, дома́шняя", "в хоро́ш<b class='hl'>ей</b>, в дома́шн<b class='hl'>ей</b>", "<b>-ей</b>"],
+          ],
+        },
+        {
+          t: "examples",
+          items: [
+            { ru: "— В како́м до́ме вы живёте? — Мы живём <b class='hl'>в большо́м но́вом до́ме</b>.", uz: "— Qanday uyda yashaysiz? — Katta yangi uyda yashaymiz." },
+            { ru: "— В како́й ко́мнате? — <b class='hl'>В большо́й хоро́шей ко́мнате</b>.", uz: "— Qanday xonada? — Katta, yaxshi xonada." },
+            { ru: "Преподава́тель расска́зывал <b class='hl'>о вели́ком ру́сском поэ́те</b> Пу́шкине.", uz: "O'qituvchi buyuk rus shoiri Pushkin haqida gapirdi." },
+          ],
+        },
+        {
+          t: "callout",
+          tone: "tip",
+          title: "Sifat nechta bo'lsa ham — hammasi o'zgaradi",
+          text: "<b>в большо́м но́вом хоро́шем до́ме</b> — uchala sifat ham <b>-ом</b> oldi. Ular otga ergashadi, bir-biriga emas.",
+        },
+
+        { t: "h", text: "Egalik va ko'rsatish olmoshlari" },
+        {
+          t: "table",
+          caption: "мой, наш, э́тот, тот, свой — predlog kelishigida",
+          head: ["Olmosh", "он / оно́ (о ком? о чём?)", "она́"],
+          rows: [
+            ["мой / моё / моя́", "о мо<b class='hl'>ём</b> бра́те", "о мо<b class='hl'>е́й</b> сестре́"],
+            ["твой", "о тво<b class='hl'>ём</b>", "о тво<b class='hl'>е́й</b>"],
+            ["наш / на́ше / на́ша", "о на́ш<b class='hl'>ем</b>", "о на́ш<b class='hl'>ей</b>"],
+            ["ваш", "о ва́ш<b class='hl'>ем</b>", "о ва́ш<b class='hl'>ей</b>"],
+            ["э́тот / э́то / э́та", "об э́т<b class='hl'>ом</b> столе́", "об э́т<b class='hl'>ой</b> кни́ге"],
+            ["тот / то / та", "о т<b class='hl'>ом</b> до́ме", "о т<b class='hl'>ой</b> маши́не"],
+            ["свой / своё / своя́", "о сво<b class='hl'>ём</b>", "о сво<b class='hl'>е́й</b>"],
+          ],
+        },
+        {
+          t: "callout",
+          tone: "info",
+          title: "Naqsh bitta",
+          text: "Sifat ham, olmosh ham bir xil ishlaydi: erkak/o'rta → <b>-ом / -ем</b>, ayol → <b>-ой / -ей</b>. Ya'ni <b>в моём но́вом до́ме</b> va <b>в мое́й но́вой ко́мнате</b>.<br>Va <b>его́, её, их</b> — hech qachon o'zgarmaydi: <i>о его́ бра́те, о её сестре́</i>.",
+        },
+        {
+          t: "callout",
+          tone: "warn",
+          title: "«Свой» nima?",
+          text: "«Свой» = «o'zining». Gap egasiga qaytadi:<br><b>Он говори́т о своём бра́те.</b> — U <u>o'zining</u> akasi haqida gapiryapti.<br><b>Он говори́т о его́ бра́те.</b> — U <u>boshqa birovning</u> akasi haqida gapiryapti.<br>O'zbekchada ikkalasi ham «uning akasi» — shuning uchun bu farqni alohida eslab qolish kerak.",
+        },
+        {
+          t: "examples",
+          items: [
+            { ru: "Э́то моя́ ко́мната. → <b class='hl'>В мое́й ко́мнате</b> есть стол и шкаф.", uz: "Bu mening xonam. → Mening xonamda stol va shkaf bor." },
+            { ru: "Э́то наш университе́т. → <b class='hl'>В на́шем университе́те</b> была́ конфере́нция.", uz: "Bu bizning universitetimiz. → Universitetimizda konferensiya bo'ldi." },
+          ],
+        },
+
         { t: "h", text: "Mashqlar" },
         {
           t: "quiz",
@@ -215,6 +281,57 @@ export default {
             ["о дочь", "о до́чери"],
           ],
           note: "Chap ustunda — bosh kelishik. O'ngda — predlog kelishigidagi to'g'ri shakl.",
+        },
+        {
+          t: "quiz",
+          q: "«Мы живём в ___ до́ме.» (большой)",
+          options: ["большо́й", "большо́м", "большо́е", "большу́ю"],
+          answer: 1,
+          hint: "«Дом» — erkak jinsi → sifat -ом oladi.",
+        },
+        {
+          t: "quiz",
+          q: "«Я учу́сь в ___ шко́ле.» (хорошая)",
+          options: ["хоро́шой", "хоро́шей", "хоро́шем", "хоро́шая"],
+          answer: 1,
+          hint: "Ayol jinsi → -ой. Lekin ш dan keyin urg'usiz «о» yozilmaydi → «ей»: хоро́шей.",
+        },
+        {
+          t: "quiz",
+          q: "«Он расска́зывает о ___ сестре́.» (своя)",
+          options: ["свое́й", "своём", "свою́", "своя́"],
+          answer: 0,
+          hint: "«Сестра» — ayol jinsi → свое́й.",
+        },
+        {
+          t: "quiz",
+          q: "«Ива́н чита́ет письмо́ ___ бра́та.» (Ivan boshqa odamning akasi haqidagi xatni o'qiyapti)",
+          options: ["о своём", "о его́", "о моём", "об э́том"],
+          answer: 1,
+          hint: "«Свой» gap egasiga (Ivanning o'ziga) qaytardi. Boshqa odamning akasi bo'lsa — «его́».",
+        },
+        {
+          t: "fill",
+          q: "To'ldiring: «Кни́га лежи́т на ___ столе́.» (мой)",
+          answer: ["моём", "моем"],
+          hint: "Erkak jinsi → о моём / на моём.",
+        },
+        {
+          t: "fill",
+          q: "To'ldiring: «Мы говори́м об ___ кни́ге.» (эта)",
+          answer: ["этой", "э́той"],
+          hint: "Ayol jinsi → э́той.",
+        },
+        {
+          t: "match",
+          q: "Sifat va olmoshni to'g'ri shaklga ulang",
+          pairs: [
+            ["но́вый дом →", "в но́вом до́ме"],
+            ["но́вая ко́мната →", "в но́вой ко́мнате"],
+            ["мой брат →", "о моём бра́те"],
+            ["моя́ сестра́ →", "о мое́й сестре́"],
+            ["э́тот го́род →", "об э́том го́роде"],
+          ],
         },
       ],
     },
@@ -321,6 +438,59 @@ export default {
           ],
         },
 
+        { t: "h", text: "Sifat tushum kelishigida" },
+        {
+          t: "p",
+          text: "Bu yerda ham o'sha jonli/jonsiz bo'linishi ishlaydi — lekin faqat erkak jinsida. Ayol jinsi o'ziga xos <b>-ую / -юю</b> qo'shimchasini oladi.",
+        },
+        {
+          t: "table",
+          caption: "Како́й? → Како́го? / Како́й?",
+          head: ["Jins", "Bosh kelishik", "Tushum kelishigi", "Qoida"],
+          rows: [
+            ["<b>он</b> jonsiz", "но́вый стол", "но́вый стол", "<b>o'zgarmaydi</b>"],
+            ["<b>он</b> jonli", "но́вый студе́нт", "но́в<b class='hl'>ого</b> студе́нта", "= qaratqich kelishigi"],
+            ["<b>она́</b>", "но́вая кни́га<br>хоро́шая<br>дома́шняя", "но́в<b class='hl'>ую</b> кни́гу<br>хоро́ш<b class='hl'>ую</b><br>дома́шн<b class='hl'>юю</b>", "<b>-ую / -юю</b>"],
+            ["<b>оно́</b>", "но́вое окно́", "но́вое окно́", "<b>hech qachon o'zgarmaydi</b>"],
+          ],
+        },
+        {
+          t: "callout",
+          tone: "warn",
+          title: "«-ого» «-ava» deb o'qiladi",
+          text: "<b>но́вого</b> → «novava». Yodingizdami, «его́» ham «yevo» edi? Bu bir xil qoida: <b>-ого / -его</b> dagi <b>г</b> har doim <b>«в»</b> deb talaffuz qilinadi.",
+        },
+
+        { t: "h", text: "Olmoshlar tushum kelishigida" },
+        {
+          t: "table",
+          caption: "мой, наш, э́тот, свой",
+          head: ["Olmosh", "он jonsiz", "он jonli", "она́", "оно́"],
+          rows: [
+            ["мой", "мой стол", "мо<b class='hl'>его́</b> бра́та", "мо<b class='hl'>ю́</b> сестру́", "моё окно́"],
+            ["наш", "наш дом", "на́ш<b class='hl'>его</b> дру́га", "на́ш<b class='hl'>у</b> ко́мнату", "на́ше зда́ние"],
+            ["э́тот", "э́тот стол", "э́т<b class='hl'>ого</b> студе́нта", "э́т<b class='hl'>у</b> кни́гу", "э́то окно́"],
+            ["тот", "тот дом", "т<b class='hl'>ого́</b> челове́ка", "т<b class='hl'>у</b> маши́ну", "то по́ле"],
+            ["свой", "свой стол", "сво<b class='hl'>его́</b> бра́та", "сво<b class='hl'>ю́</b> сестру́", "своё ме́сто"],
+          ],
+        },
+        {
+          t: "table",
+          caption: "Shaxs olmoshlari",
+          head: ["я", "ты", "он / оно́", "она́", "мы", "вы", "они́"],
+          rows: [["меня́", "тебя́", "его́ (у него́)", "её (у неё)", "нас", "вас", "их (у них)"]],
+        },
+        {
+          t: "examples",
+          items: [
+            { ru: "Я чита́ю <b class='hl'>интере́сную кни́гу</b>.", uz: "Men qiziqarli kitob o'qiyapman." },
+            { ru: "Я ви́жу <b class='hl'>но́вого студе́нта</b>.", uz: "Men yangi talabani ko'ryapman. (jonli!)" },
+            { ru: "Я ви́жу <b class='hl'>но́вый дом</b>.", uz: "Men yangi uyni ko'ryapman. (jonsiz)" },
+            { ru: "Я люблю́ <b class='hl'>свою́ семью́</b>.", uz: "Men o'z oilamni sevaman." },
+            { ru: "Я хорошо́ зна́ю <b class='hl'>э́того челове́ка</b>.", uz: "Men bu odamni yaxshi bilaman." },
+          ],
+        },
+
         { t: "h", text: "Mashqlar" },
         {
           t: "quiz",
@@ -377,6 +547,51 @@ export default {
             ["Я е́ду в…", "Москву́"],
             ["Кни́га на…", "столе́"],
             ["Положи́ на…", "стол"],
+          ],
+        },
+        {
+          t: "quiz",
+          q: "«Я чита́ю ___ кни́гу.» (интересная)",
+          options: ["интере́сная", "интере́сную", "интере́сной", "интере́сного"],
+          answer: 1,
+          hint: "Ayol jinsi tushum kelishigida → -ую.",
+        },
+        {
+          t: "quiz",
+          q: "«Я ви́жу ___ студе́нта.» (новый)",
+          options: ["но́вый", "но́вого", "но́вому", "но́вым"],
+          answer: 1,
+          hint: "«Студент» jonli → sifat qaratqich shaklini oladi: но́вого.",
+        },
+        {
+          t: "quiz",
+          q: "«Я ви́жу ___ дом.» (новый)",
+          options: ["но́вый", "но́вого", "но́вом", "но́вую"],
+          answer: 0,
+          hint: "«Дом» jonsiz → sifat o'zgarmaydi.",
+        },
+        {
+          t: "quiz",
+          q: "«Он лю́бит ___ сестру́.» (u o'zining singlisini sevadi)",
+          options: ["его́", "свою́", "своя́", "свое́й"],
+          answer: 1,
+          hint: "Gap egasining o'z singlisi → «свою́» (ayol jinsi, tushum kelishigi).",
+        },
+        {
+          t: "fill",
+          q: "To'ldiring: «Я зна́ю ___ челове́ка.» (этот)",
+          answer: ["этого", "э́того"],
+          hint: "«Человек» jonli → э́того.",
+        },
+        {
+          t: "match",
+          q: "To'g'ri tushum kelishigi shaklini ulang",
+          pairs: [
+            ["но́вая кни́га →", "но́вую кни́гу"],
+            ["но́вый студе́нт →", "но́вого студе́нта"],
+            ["но́вый стол →", "но́вый стол"],
+            ["моя́ сестра́ →", "мою́ сестру́"],
+            ["мой брат →", "моего́ бра́та"],
           ],
         },
       ],
@@ -464,6 +679,43 @@ export default {
           text: "<b>дава́ть/дать</b> (bermoq), <b>писа́ть</b> (yozmoq — kimga), <b>звони́ть</b> (qo'ng'iroq qilmoq), <b>помога́ть</b> (yordam bermoq), <b>объясня́ть</b> (tushuntirmoq), <b>говори́ть</b> (aytmoq — kimga), <b>отвеча́ть</b> (javob bermoq), <b>нра́виться</b> (yoqmoq), <b>меша́ть</b> (xalaqit bermoq).",
         },
 
+        { t: "h", text: "Sifat va olmoshlar jo'nalish kelishigida" },
+        {
+          t: "table",
+          caption: "Како́му? / Како́й?",
+          head: ["Jins", "Bosh kelishik", "Jo'nalish kelishigi", "Qo'shimcha"],
+          rows: [
+            ["<b>он / оно́</b>", "но́вый, но́вое<br>большо́й<br>хоро́ший", "но́в<b class='hl'>ому</b><br>больш<b class='hl'>о́му</b><br>хоро́ш<b class='hl'>ему</b>", "<b>-ому / -ему</b>"],
+            ["<b>она́</b>", "но́вая<br>хоро́шая", "но́в<b class='hl'>ой</b><br>хоро́ш<b class='hl'>ей</b>", "<b>-ой / -ей</b>"],
+          ],
+        },
+        {
+          t: "table",
+          caption: "Olmoshlar",
+          head: ["Olmosh", "он / оно́", "она́"],
+          rows: [
+            ["мой", "мо<b class='hl'>ему́</b> бра́ту", "мо<b class='hl'>е́й</b> сестре́"],
+            ["наш", "на́ш<b class='hl'>ему</b>", "на́ш<b class='hl'>ей</b>"],
+            ["э́тот", "э́т<b class='hl'>ому</b> студе́нту", "э́т<b class='hl'>ой</b> де́вушке"],
+            ["тот", "т<b class='hl'>ому́</b>", "т<b class='hl'>ой</b>"],
+            ["свой", "сво<b class='hl'>ему́</b>", "сво<b class='hl'>е́й</b>"],
+          ],
+        },
+        {
+          t: "callout",
+          tone: "tip",
+          title: "Ayol jinsini bir marta yodlang — to'rt joyda ishlaydi",
+          text: "Ayol jinsidagi sifat/olmosh <b>qaratqich, jo'nalish, vosita va predlog</b> kelishiklarida <u>bir xil</u>: <b>но́вой, мое́й, э́той</b>.<br>Ya'ni: <i>у но́вой сестры́ · к но́вой сестре́ · с но́вой сестро́й · о но́вой сестре́</i>.<br>Farqni faqat ot va predlog ko'rsatadi. Bu katta yengillik.",
+        },
+        {
+          t: "examples",
+          items: [
+            { ru: "Я пишу́ письмо́ <b class='hl'>своему́ ста́ршему бра́ту</b>.", uz: "Men katta akamga xat yozyapman." },
+            { ru: "Преподава́тель объясня́ет пра́вило <b class='hl'>но́вому студе́нту</b>.", uz: "O'qituvchi yangi talabaga qoidani tushuntiryapti." },
+            { ru: "<b class='hl'>Мое́й мла́дшей сестре́</b> пять лет.", uz: "Mening kichik singlim besh yoshda." },
+          ],
+        },
+
         { t: "h", text: "Mashqlar" },
         {
           t: "quiz",
@@ -514,6 +766,36 @@ export default {
             ["он", "ему́"],
             ["она́", "ей"],
             ["они́", "им"],
+          ],
+        },
+        {
+          t: "quiz",
+          q: "«Я пишу́ ___ бра́ту.» (мой старший)",
+          options: ["моему́ ста́ршему", "мой ста́рший", "моего́ ста́ршего", "мои́м ста́ршим"],
+          answer: 0,
+          hint: "Erkak jinsi jo'nalish kelishigida: -ему / -ому.",
+        },
+        {
+          t: "quiz",
+          q: "«Я звоню́ ___ подру́ге.» (своя)",
+          options: ["свою́", "свое́й", "своя́", "своему́"],
+          answer: 1,
+          hint: "Ayol jinsi → свое́й.",
+        },
+        {
+          t: "fill",
+          q: "To'ldiring: «Он помога́ет ___ студе́нту.» (этот)",
+          answer: ["этому", "э́тому"],
+          hint: "Erkak jinsi → э́тому.",
+        },
+        {
+          t: "match",
+          q: "Jo'nalish kelishigi shaklini ulang",
+          pairs: [
+            ["но́вый студе́нт →", "но́вому студе́нту"],
+            ["но́вая сестра́ →", "но́вой сестре́"],
+            ["мой друг →", "моему́ дру́гу"],
+            ["э́та де́вушка →", "э́той де́вушке"],
           ],
         },
       ],
@@ -649,6 +931,44 @@ export default {
           ],
         },
 
+        { t: "h", text: "Sifat va olmoshlar qaratqich kelishigida" },
+        {
+          t: "table",
+          caption: "Како́го? / Како́й?",
+          head: ["Jins", "Bosh kelishik", "Qaratqich kelishigi", "Qo'shimcha"],
+          rows: [
+            ["<b>он / оно́</b>", "но́вый, но́вое<br>большо́й<br>хоро́ший", "но́в<b class='hl'>ого</b><br>больш<b class='hl'>о́го</b><br>хоро́ш<b class='hl'>его</b>", "<b>-ого / -его</b>"],
+            ["<b>она́</b>", "но́вая<br>хоро́шая", "но́в<b class='hl'>ой</b><br>хоро́ш<b class='hl'>ей</b>", "<b>-ой / -ей</b>"],
+          ],
+        },
+        {
+          t: "table",
+          caption: "Olmoshlar",
+          head: ["Olmosh", "он / оно́", "она́"],
+          rows: [
+            ["мой", "мо<b class='hl'>его́</b> бра́та", "мо<b class='hl'>е́й</b> сестры́"],
+            ["наш", "на́ш<b class='hl'>его</b>", "на́ш<b class='hl'>ей</b>"],
+            ["э́тот", "э́т<b class='hl'>ого</b> го́рода", "э́т<b class='hl'>ой</b> кни́ги"],
+            ["тот", "т<b class='hl'>ого́</b>", "т<b class='hl'>ой</b>"],
+            ["свой", "сво<b class='hl'>его́</b>", "сво<b class='hl'>е́й</b>"],
+          ],
+        },
+        {
+          t: "callout",
+          tone: "warn",
+          title: "Tanish shakl",
+          text: "<b>но́вого, моего́, э́того</b> — bularni allaqachon <b>tushum kelishigida</b> (jonli otlar bilan) ko'rgan edingiz. Bu tasodif emas: jonli otlarning tushum kelishigi = qaratqich kelishigi.<br>Ya'ni bitta shaklni o'rgansangiz, ikkita joyda ishlatasiz.",
+        },
+        {
+          t: "examples",
+          items: [
+            { ru: "Э́то кни́га <b class='hl'>моего́ ста́ршего бра́та</b>.", uz: "Bu mening katta akamning kitobi." },
+            { ru: "У меня́ нет <b class='hl'>свобо́дного вре́мени</b>.", uz: "Mening bo'sh vaqtim yo'q." },
+            { ru: "Я прие́хал <b class='hl'>из ма́ленького го́рода</b>.", uz: "Men kichkina shahardan keldim." },
+            { ru: "<b class='hl'>По́сле пе́рвой ле́кции</b> у нас переры́в.", uz: "Birinchi ma'ruzadan keyin bizda tanaffus." },
+          ],
+        },
+
         { t: "h", text: "Mashqlar" },
         {
           t: "quiz",
@@ -705,6 +1025,36 @@ export default {
             ["в университе́т", "Куда́?"],
             ["из университе́та", "Отку́да?"],
             ["у врача́", "Где? (odamda)"],
+          ],
+        },
+        {
+          t: "quiz",
+          q: "«Э́то дом ___ бра́та.» (мой старший)",
+          options: ["мой ста́рший", "моего́ ста́ршего", "моему́ ста́ршему", "мои́м ста́ршим"],
+          answer: 1,
+          hint: "Egalik → qaratqich kelishigi: -ого.",
+        },
+        {
+          t: "quiz",
+          q: "«У меня́ нет ___ вре́мени.» (свободное)",
+          options: ["свобо́дное", "свобо́дного", "свобо́дному", "свобо́дным"],
+          answer: 1,
+          hint: "«Нет» + qaratqich. O'rta jins ham -ого oladi.",
+        },
+        {
+          t: "fill",
+          q: "To'ldiring: «Я прие́хал из ___ го́рода.» (маленький)",
+          answer: ["маленького", "ма́ленького"],
+          hint: "Erkak jinsi qaratqich: -ого.",
+        },
+        {
+          t: "match",
+          q: "Qaratqich kelishigi shaklini ulang",
+          pairs: [
+            ["но́вый дом →", "но́вого до́ма"],
+            ["но́вая кни́га →", "но́вой кни́ги"],
+            ["мой брат →", "моего́ бра́та"],
+            ["э́та шко́ла →", "э́той шко́лы"],
           ],
         },
       ],
@@ -800,6 +1150,44 @@ export default {
           text: "<b>на столе́</b> = stol ustida, <u>tegib turibdi</u> (predlog kelishigi)<br><b>над столо́м</b> = stol ustida, <u>havoda osilgan</u> (vosita kelishigi)<br>Ikkalasi ham o'zbekcha «stol ustida», lekin ma'no boshqa.",
         },
 
+        { t: "h", text: "Sifat va olmoshlar vosita kelishigida" },
+        {
+          t: "table",
+          caption: "Каки́м? / Како́й?",
+          head: ["Jins", "Bosh kelishik", "Vosita kelishigi", "Qo'shimcha"],
+          rows: [
+            ["<b>он / оно́</b>", "но́вый, но́вое<br>большо́й<br>хоро́ший", "но́в<b class='hl'>ым</b><br>больш<b class='hl'>и́м</b><br>хоро́ш<b class='hl'>им</b>", "<b>-ым / -им</b>"],
+            ["<b>она́</b>", "но́вая<br>хоро́шая", "но́в<b class='hl'>ой</b><br>хоро́ш<b class='hl'>ей</b>", "<b>-ой / -ей</b>"],
+          ],
+        },
+        {
+          t: "table",
+          caption: "Olmoshlar",
+          head: ["Olmosh", "он / оно́", "она́"],
+          rows: [
+            ["мой", "мо<b class='hl'>и́м</b> бра́том", "мо<b class='hl'>е́й</b> сестро́й"],
+            ["наш", "на́ш<b class='hl'>им</b>", "на́ш<b class='hl'>ей</b>"],
+            ["э́тот", "э́т<b class='hl'>им</b> челове́ком", "э́т<b class='hl'>ой</b> кни́гой"],
+            ["тот", "т<b class='hl'>ем</b>", "т<b class='hl'>ой</b>"],
+            ["свой", "сво<b class='hl'>и́м</b>", "сво<b class='hl'>е́й</b>"],
+          ],
+        },
+        {
+          t: "callout",
+          tone: "warn",
+          title: "«Тем» — istisno",
+          text: "«Тот» olmoshi vosita kelishigida <b>тем</b> bo'ladi, «тым» emas. Bu yagona shunday shakl.",
+        },
+        {
+          t: "examples",
+          items: [
+            { ru: "Я иду́ в кино́ <b class='hl'>со свои́м ста́ршим бра́том</b>.", uz: "Men katta akam bilan kinoga boryapman." },
+            { ru: "Он хо́чет стать <b class='hl'>хоро́шим врачо́м</b>.", uz: "U yaxshi shifokor bo'lmoqchi." },
+            { ru: "Я пишу́ <b class='hl'>но́вой ру́чкой</b>.", uz: "Men yangi ruchka bilan yozyapman." },
+            { ru: "Ла́мпа <b class='hl'>над э́тим столо́м</b>.", uz: "Chiroq shu stol ustida." },
+          ],
+        },
+
         { t: "h", text: "Mashqlar" },
         {
           t: "quiz",
@@ -851,6 +1239,36 @@ export default {
             ["пе́ред", "oldida"],
           ],
         },
+        {
+          t: "quiz",
+          q: "«Я говорю́ с ___ бра́том.» (свой старший)",
+          options: ["свой ста́рший", "своего́ ста́ршего", "свои́м ста́ршим", "своему́ ста́ршему"],
+          answer: 2,
+          hint: "Erkak jinsi vosita kelishigida: -им / -ым.",
+        },
+        {
+          t: "quiz",
+          q: "«Он стал ___ врачо́м.» (хороший)",
+          options: ["хоро́шим", "хоро́шего", "хоро́шему", "хоро́ший"],
+          answer: 0,
+          hint: "Kasb → vosita kelishigi. ш dan keyin -им.",
+        },
+        {
+          t: "fill",
+          q: "To'ldiring: «Я пишу́ ___ ру́чкой.» (новая)",
+          answer: ["новой", "но́вой"],
+          hint: "Ayol jinsi → но́вой (qaratqich, jo'nalish, predlog bilan bir xil).",
+        },
+        {
+          t: "match",
+          q: "Vosita kelishigi shaklini ulang",
+          pairs: [
+            ["но́вый друг →", "но́вым дру́гом"],
+            ["но́вая ру́чка →", "но́вой ру́чкой"],
+            ["мой брат →", "мои́м бра́том"],
+            ["тот челове́к →", "тем челове́ком"],
+          ],
+        },
       ],
     },
 
@@ -896,6 +1314,44 @@ export default {
           tone: "info",
           title: "Qavs ichidagi shakllar",
           text: "Predlogdan keyin 3-shaxs olmoshlariga <b>н-</b> qo'shiladi: <i>у <b>н</b>его́, к <b>н</b>ему́, с <b>н</b>им, о <b>н</b>ём</i>. Predlogsiz — <b>н</b> yo'q: <i>Я ви́жу его́.</i>",
+        },
+        {
+          t: "table",
+          caption: "Sifat — to'liq jadval",
+          head: ["Kelishik", "он / оно́ (но́вый / но́вое)", "она́ (но́вая)"],
+          rows: [
+            ["Имени́тельный", "но́в<b class='hl'>ый</b> / но́в<b class='hl'>ое</b>", "но́в<b class='hl'>ая</b>"],
+            ["Роди́тельный", "но́в<b class='hl'>ого</b>", "но́в<b class='hl'>ой</b>"],
+            ["Да́тельный", "но́в<b class='hl'>ому</b>", "но́в<b class='hl'>ой</b>"],
+            ["Вини́тельный", "= bosh k. (jonsiz)<br>= qaratqich (jonli)", "но́в<b class='hl'>ую</b>"],
+            ["Твори́тельный", "но́в<b class='hl'>ым</b>", "но́в<b class='hl'>ой</b>"],
+            ["Предло́жный", "о но́в<b class='hl'>ом</b>", "о но́в<b class='hl'>ой</b>"],
+          ],
+        },
+        {
+          t: "callout",
+          tone: "tip",
+          title: "Ayol jinsini boshqa qaramasangiz ham bo'ladi",
+          text: "Ayol jinsidagi sifat oltita kelishikdan <b>to'rttasida bir xil</b>: <b>но́вой</b>. Faqat bosh (но́вая) va tushum (но́вую) kelishiklari boshqacha.<br>Ya'ni sizga aslida <b>uchta</b> shakl kerak: <b>но́вая, но́вую, но́вой</b>.",
+        },
+        {
+          t: "table",
+          caption: "Egalik va ko'rsatish olmoshlari — to'liq",
+          head: ["Kelishik", "мой (он)", "моя́ (она́)", "э́тот (он)", "э́та (она́)"],
+          rows: [
+            ["Имени́тельный", "мой", "моя́", "э́тот", "э́та"],
+            ["Роди́тельный", "моего́", "мое́й", "э́того", "э́той"],
+            ["Да́тельный", "моему́", "мое́й", "э́тому", "э́той"],
+            ["Вини́тельный", "мой / моего́", "мою́", "э́тот / э́того", "э́ту"],
+            ["Твори́тельный", "мои́м", "мое́й", "э́тим", "э́той"],
+            ["Предло́жный", "о моём", "о мое́й", "об э́том", "об э́той"],
+          ],
+        },
+        {
+          t: "callout",
+          tone: "info",
+          title: "«Твой», «свой», «наш», «ваш»",
+          text: "<b>твой</b> va <b>свой</b> aynan <b>мой</b> kabi tuslanadi (твоего́, своего́, твои́м, свои́м…).<br><b>ваш</b> aynan <b>наш</b> kabi (на́шего, ва́шего, на́шим, ва́шим…).<br>Va yana bir marta: <b>его́, её, их</b> — hech qachon o'zgarmaydi.",
         },
         {
           t: "table",
@@ -971,6 +1427,44 @@ export default {
             ["с (birga)", "Твори́тельный"],
             ["о", "Предло́жный"],
             ["че́рез", "Вини́тельный"],
+          ],
+        },
+        {
+          t: "quiz",
+          q: "«Я живу́ в ___ до́ме с ___ бра́том.» (новый; мой)",
+          options: ["но́вом … мои́м", "но́вым … моего́", "но́вого … моему́", "но́вый … мой"],
+          answer: 0,
+          hint: "«В» + где? → predlog kelishigi (но́вом). «С кем?» → vosita kelishigi (мои́м).",
+        },
+        {
+          t: "quiz",
+          q: "«У ___ сестры́ нет ___ вре́мени.» (моя; свободное)",
+          options: ["моя́ … свобо́дное", "мое́й … свобо́дного", "мое́й … свобо́дное", "мою́ … свобо́дного"],
+          answer: 1,
+          hint: "«У» + qaratqich (мое́й). «Нет» + qaratqich (свобо́дного).",
+        },
+        {
+          t: "quiz",
+          q: "Ayol jinsidagi sifat qaysi kelishikda «но́вой» BO'LMAYDI?",
+          options: ["Роди́тельный", "Да́тельный", "Вини́тельный", "Предло́жный"],
+          answer: 2,
+          hint: "Tushum kelishigida — «но́вую». Qolgan uchtasida «но́вой».",
+        },
+        {
+          t: "fill",
+          q: "To'ldiring: «Я ви́жу ___ студе́нта.» (этот новый — ikkala so'z ham)",
+          answer: ["этого нового", "э́того но́вого"],
+          hint: "«Студент» jonli → ikkalasi ham qaratqich shaklida: э́того но́вого.",
+        },
+        {
+          t: "match",
+          q: "«мой» olmoshini kelishikka ulang",
+          pairs: [
+            ["Роди́тельный (он)", "моего́"],
+            ["Да́тельный (он)", "моему́"],
+            ["Твори́тельный (он)", "мои́м"],
+            ["Предло́жный (он)", "о моём"],
+            ["Вини́тельный (она́)", "мою́"],
           ],
         },
       ],

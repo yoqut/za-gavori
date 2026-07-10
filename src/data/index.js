@@ -1,3 +1,4 @@
+import alphabet from "./00-alphabet.js";
 import intro from "./01-intro.js";
 import casesSg from "./02-cases-singular.js";
 import casesPl from "./03-cases-plural.js";
@@ -6,7 +7,7 @@ import aspect from "./05-aspect.js";
 import motion from "./06-motion.js";
 import reflexive from "./07-reflexive.js";
 
-export const categories = [intro, casesSg, casesPl, numTime, aspect, motion, reflexive];
+export const categories = [alphabet, intro, casesSg, casesPl, numTime, aspect, motion, reflexive];
 
 /** Barcha darslar — tekis ro'yxat, "oldingi / keyingi" tugmalari uchun. */
 export const flatLessons = categories.flatMap((cat) =>

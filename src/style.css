@@ -537,6 +537,276 @@ caption {
   margin-bottom: 26px;
 }
 
+.quiz .dim {
+  color: var(--ink-faint);
+  font-weight: 400;
+}
+
+.btn.retry {
+  margin-top: 12px;
+  font-size: 13px;
+  padding: 7px 14px;
+}
+
+.review {
+  margin-top: 44px;
+  padding-top: 28px;
+  border-top: 2px dashed var(--line);
+}
+
+.nav-item.trainer-link {
+  margin-top: 4px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ---------- Lug'at ---------- */
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  padding: 8px 16px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.tab span {
+  color: var(--ink-faint);
+  font-size: 12px;
+  margin-left: 4px;
+}
+
+.tab:hover {
+  border-color: var(--accent);
+}
+
+.tab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.tab.active span {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+input.search {
+  width: 100%;
+  background: var(--panel);
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+input.search:focus {
+  outline: 0;
+  border-color: var(--accent);
+}
+
+.list-info {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  margin: 12px 2px 10px;
+}
+
+.dict-list {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.dict-row {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.dict-row.open {
+  border-color: var(--accent);
+}
+
+.dict-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: none;
+  border: 0;
+  padding: 12px 16px;
+  font: inherit;
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+}
+
+.dict-head:hover {
+  background: var(--panel-2);
+}
+
+.dict-word {
+  font-size: 15px;
+  font-weight: 600;
+  min-width: 150px;
+}
+
+.dict-uz {
+  flex: 1;
+  color: var(--ink-soft);
+  font-size: 14px;
+  min-width: 0;
+}
+
+.dict-badge {
+  font-size: 11px;
+  color: var(--ink-faint);
+  background: var(--panel-2);
+  border-radius: 99px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+.dict-caret {
+  color: var(--ink-faint);
+  transition: transform 0.2s ease;
+}
+
+.dict-row.open .dict-caret {
+  transform: rotate(180deg);
+}
+
+.detail {
+  padding: 4px 16px 18px;
+  display: grid;
+  gap: 14px;
+}
+
+.detail-meta {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.detail .pill {
+  font-size: 11.5px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 99px;
+  padding: 3px 10px;
+  font-weight: 600;
+}
+
+.detail .pill.dim {
+  background: var(--panel-2);
+  color: var(--ink-faint);
+}
+
+h4.detail-h {
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* Fe'l kartasi ichidagi bo'limlar */
+
+.sections {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--panel-2);
+}
+
+.subtabs {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  background: var(--panel-2);
+  border-bottom: 1px solid var(--line);
+  padding: 6px 6px 0;
+}
+
+.subtab {
+  background: none;
+  border: 0;
+  border-radius: 8px 8px 0 0;
+  padding: 9px 14px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+}
+
+.subtab:hover {
+  color: var(--ink);
+}
+
+.subtab.active {
+  background: var(--panel);
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom-color: var(--accent);
+}
+
+.subtab span {
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 11px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 99px;
+  padding: 1px 6px;
+}
+
+.subpanel {
+  background: var(--panel);
+  padding: 14px;
+}
+
+.panel-body {
+  display: grid;
+  gap: 12px;
+}
+
+p.panel-note {
+  font-size: 13px;
+  color: var(--ink-faint);
+  margin: 0;
+}
+
+.detail .dim {
+  color: var(--ink-faint);
+}
+
+@media (max-width: 640px) {
+  .dict-head {
+    flex-wrap: wrap;
+    gap: 4px 10px;
+  }
+
+  .dict-word {
+    min-width: 0;
+  }
+
+  .dict-uz {
+    flex-basis: 100%;
+    order: 3;
+  }
+}
+
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-4px); }

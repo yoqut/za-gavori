@@ -1,6 +1,7 @@
 import "./style.css";
 import { categories, findLesson, flatLessons, lessonIndex, exerciseCount, totalLessons, totalExercises } from "./data/index.js";
-import { renderBlock, isExercise } from "./render.js";
+import { renderBlock, renderExercise, isExercise } from "./render.js";
+import { renderTrainer } from "./trainer.js";
 import * as progress from "./progress.js";
 
 const app = document.querySelector("#app");
@@ -11,6 +12,8 @@ function parseRoute() {
   const hash = location.hash.replace(/^#\/?/, "");
   if (!hash) return { name: "home" };
   const [kind, catId, lessonId] = hash.split("/");
+  if (kind === "trainer") return { name: "trainer" };
+  if (kind === "dict") return { name: "dict" };
   if (kind === "lesson" && catId && lessonId) return { name: "lesson", catId, lessonId };
   return { name: "home" };
 }
@@ -44,6 +47,26 @@ function renderSidebar(route) {
     <div class="row"><span>Bajarildi</span><b>${done} / ${totalLessons}</b></div>
     <div class="bar"><i style="width:${pct}%"></i></div>`;
   bar.append(box);
+
+  const trainerBtn = document.createElement("button");
+  trainerBtn.className = "nav-item trainer-link";
+  if (route.name === "trainer") trainerBtn.classList.add("active");
+  trainerBtn.innerHTML = `<span class="tick" style="border:0">🎯</span><span>Kelishik trenajyori</span>`;
+  trainerBtn.addEventListener("click", () => {
+    go("/trainer");
+    bar.classList.remove("open");
+  });
+  bar.append(trainerBtn);
+
+  const dictBtn = document.createElement("button");
+  dictBtn.className = "nav-item trainer-link";
+  if (route.name === "dict") dictBtn.classList.add("active");
+  dictBtn.innerHTML = `<span class="tick" style="border:0">📖</span><span>Lug'at</span>`;
+  dictBtn.addEventListener("click", () => {
+    go("/dict");
+    bar.classList.remove("open");
+  });
+  bar.append(dictBtn);
 
   categories.forEach((cat) => {
     bar.append(Object.assign(document.createElement("div"), { className: "cat-title", textContent: cat.title }));
@@ -93,6 +116,19 @@ function renderHome() {
     <div class="stat"><b>${totalExercises}</b><span>ta interaktiv mashq</span></div>
     <div class="stat"><b>${done ? `${done} / ${totalLessons}` : "0"}</b><span>bajarildi · ${correct} to'g'ri javob</span></div>`;
   wrap.append(stats);
+
+  const trainerCard = document.createElement("div");
+  trainerCard.className = "cat-card";
+  trainerCard.innerHTML = `
+    <header><span class="emoji">🎯</span><h2>Kelishik trenajyori</h2></header>
+    <p>Darslardagi mashqlar tugadimi? Bu yerda savollar tasodifiy yasaladi va hech qachon tugamaydi.
+       Otlar va sifatlarni istalgan kelishikda mashq qiling.</p>`;
+  const trainerBtn = document.createElement("button");
+  trainerBtn.className = "btn";
+  trainerBtn.textContent = "Mashqni boshlash →";
+  trainerBtn.addEventListener("click", () => go("/trainer"));
+  trainerCard.append(trainerBtn);
+  wrap.append(trainerCard);
 
   categories.forEach((cat) => {
     const card = document.createElement("div");
@@ -161,6 +197,7 @@ function renderLessonPage(route) {
   const total = exerciseCount(lesson);
   let answered = 0;
   let correct = 0;
+  const wrong = [];
 
   const pill = document.createElement("span");
   pill.className = "score-pill";
@@ -171,21 +208,54 @@ function renderLessonPage(route) {
   };
   updatePill();
 
-  const onExerciseDone = (ok) => {
+  /* Xatolar ustida ishlash — dars oxirida paydo bo'ladi. */
+  const review = document.createElement("section");
+  review.className = "review";
+
+  const buildReview = () => {
+    review.replaceChildren();
+    if (!wrong.length) {
+      review.innerHTML = `
+        <div class="callout tip block">
+          <b>Dars tugadi — barcha mashq to'g'ri! 🎉</b>
+          <span>Xato qilmadingiz, takrorlash uchun hech narsa yo'q. Keyingi darsga o'tishingiz mumkin.</span>
+        </div>`;
+      return;
+    }
+    review.append(
+      Object.assign(document.createElement("h3"), {
+        className: "lesson-h",
+        textContent: `Xatolar ustida ishlash (${wrong.length} ta)`,
+      }),
+    );
+    const note = document.createElement("div");
+    note.className = "callout warn block";
+    note.innerHTML = `<b>Xato qilgan mashqlaringiz</b><span>Ular yangidan berilyapti. Bu urinishlar bahoingizni o'zgartirmaydi — yodlash uchun.</span>`;
+    review.append(note);
+    // onDone = null: takroriy urinish natijasi hisobga olinmaydi.
+    wrong.forEach((b) => review.append(renderExercise(b, null)));
+  };
+
+  const onExerciseDone = (block, ok) => {
     answered++;
     if (ok) correct++;
+    else wrong.push(block);
     updatePill();
     if (answered === total) {
       progress.saveResult(cat.id, lesson.id, correct, total);
       // Sidebar dagi belgini yangilaymiz, sahifani qayta chizmasdan.
       document.querySelector(".sidebar")?.replaceWith(renderSidebar(route));
+      buildReview();
+      review.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
   lesson.blocks.forEach((b) => {
-    const node = renderBlock(b, isExercise(b) ? onExerciseDone : undefined);
+    const node = renderBlock(b, isExercise(b) ? (ok) => onExerciseDone(b, ok) : undefined);
     wrap.append(node);
   });
+
+  if (total) wrap.append(review);
 
   /* Oldingi / keyingi */
   const idx = lessonIndex(cat.id, lesson.id);
@@ -224,6 +294,30 @@ function renderLessonPage(route) {
   return wrap;
 }
 
+/* ---------------- Lug'at (talab bo'yicha yuklanadi) ---------------- */
+
+/**
+ * Lug'at ma'lumotlari ~200 kB. Uni asosiy bundlega qo'shmaymiz —
+ * faqat "Lug'at" sahifasiga o'tilganda yuklanadi.
+ */
+function renderDictionaryLazy() {
+  const holder = document.createElement("div");
+  holder.className = "wrap";
+  holder.innerHTML = `<p class="body" style="padding:40px 0">Lug'at yuklanmoqda…</p>`;
+
+  import("./dictionary.js")
+    .then(({ renderDictionary }) => {
+      // Foydalanuvchi kutayotgan paytda boshqa sahifaga o'tgan bo'lishi mumkin.
+      if (!holder.isConnected) return;
+      holder.replaceWith(renderDictionary());
+    })
+    .catch(() => {
+      holder.innerHTML = `<div class="callout warn block"><b>Lug'at yuklanmadi</b><span>Sahifani yangilab ko'ring.</span></div>`;
+    });
+
+  return holder;
+}
+
 /* ---------------- Yig'ish ---------------- */
 
 function render() {
@@ -240,7 +334,10 @@ function render() {
   menuBtn.addEventListener("click", () => sidebar.classList.toggle("open"));
   main.append(menuBtn);
 
-  main.append(route.name === "lesson" ? renderLessonPage(route) : renderHome());
+  if (route.name === "lesson") main.append(renderLessonPage(route));
+  else if (route.name === "trainer") main.append(renderTrainer());
+  else if (route.name === "dict") main.append(renderDictionaryLazy());
+  else main.append(renderHome());
   app.append(sidebar, main);
   window.scrollTo(0, 0);
 }

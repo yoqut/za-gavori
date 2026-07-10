@@ -1,4 +1,10 @@
-/* Dars bloklarini DOM ga aylantiradi. Mashqlar shu yerda interaktiv bo'ladi. */
+/* Dars bloklarini DOM ga aylantiradi. Mashqlar shu yerda interaktiv bo'ladi.
+ *
+ * Har bir mashq ikki rejimda ishlaydi:
+ *  - baholanadigan (onDone berilgan) — birinchi urinish natijasi darsga yoziladi;
+ *  - mashq uchun (onDone yo'q) — "Qayta urinish" bosilganda shu rejimda qayta chiziladi,
+ *    ya'ni takroriy urinishlar bahoni o'zgartirmaydi.
+ */
 
 const el = (tag, cls, html) => {
   const node = document.createElement(tag);
@@ -8,7 +14,7 @@ const el = (tag, cls, html) => {
 };
 
 /** "прочита́л" va "прочитал" bir xil hisoblansin. */
-function normalize(s) {
+export function normalize(s) {
   return s
     .trim()
     .toLowerCase()
@@ -20,7 +26,7 @@ function normalize(s) {
     .replace(/\s+/g, " ");
 }
 
-function shuffle(arr) {
+export function shuffle(arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -106,7 +112,7 @@ function renderStatic(b) {
   }
 }
 
-/* ---------------- Mashqlar ---------------- */
+/* ---------------- Mashq yordamchilari ---------------- */
 
 function feedbackNode() {
   return el("div", "feedback");
@@ -118,12 +124,25 @@ function showFeedback(node, ok, hint) {
   if (hint) node.append(el("div", "hint", hint));
 }
 
+/** Mashqni yangidan chizadi. Takroriy urinish bahoga ta'sir qilmaydi. */
+function addRetry(box, block) {
+  const btn = el("button", "btn ghost retry", "↻ Qayta urinish");
+  btn.type = "button";
+  btn.addEventListener("click", () => box.replaceWith(renderExercise(block, null)));
+  box.append(btn);
+}
+
+/* ---------------- Mashqlar ---------------- */
+
 function renderQuiz(b, onDone) {
   const box = el("div", "quiz");
   box.append(el("span", "tag", "Test"));
   box.append(el("div", "q", b.q));
 
+  let answered = false;
+  const fb = feedbackNode();
   const opts = el("div", "opts");
+
   const buttons = b.options.map((text, i) => {
     const btn = el("button", "opt");
     btn.type = "button";
@@ -145,14 +164,13 @@ function renderQuiz(b, onDone) {
         btn.append(el("span", "mark", "✗"));
       }
       showFeedback(fb, ok, b.hint);
-      onDone(ok);
+      if (!ok) addRetry(box, b);
+      onDone?.(ok);
     });
     opts.append(btn);
     return btn;
   });
 
-  let answered = false;
-  const fb = feedbackNode();
   box.append(opts, fb);
   return box;
 }
@@ -186,7 +204,8 @@ function renderFill(b, onDone) {
     btn.disabled = true;
     const hint = ok ? b.hint : `To'g'ri javob: <b>${b.answer[b.answer.length - 1]}</b>. ${b.hint ?? ""}`;
     showFeedback(fb, ok, hint);
-    onDone(ok);
+    if (!ok) addRetry(box, b);
+    onDone?.(ok);
   };
 
   btn.addEventListener("click", check);
@@ -212,12 +231,12 @@ function renderMatch(b, onDone) {
   const lefts = b.pairs.map(([l]) => l);
   const rights = shuffle(b.pairs.map(([, r], i) => ({ text: r, i })));
 
-  let selected = null; // { btn, index }
+  let selected = null;
   let solved = 0;
   let mistakes = 0;
   let finished = false;
 
-  const leftBtns = lefts.map((text, i) => {
+  lefts.forEach((text, i) => {
     const btn = el("button", "cell", text);
     btn.type = "button";
     btn.addEventListener("click", () => {
@@ -227,7 +246,6 @@ function renderMatch(b, onDone) {
       btn.classList.add("sel");
     });
     leftCol.append(btn);
-    return btn;
   });
 
   rights.forEach(({ text, i }) => {
@@ -248,8 +266,10 @@ function renderMatch(b, onDone) {
         solved++;
         if (solved === b.pairs.length) {
           finished = true;
-          showFeedback(fb, mistakes === 0, mistakes === 0 ? b.hint : `${mistakes} ta xato bilan yakunladingiz.`);
-          onDone(mistakes === 0);
+          const clean = mistakes === 0;
+          showFeedback(fb, clean, clean ? b.hint : `${mistakes} ta xato bilan yakunladingiz.`);
+          if (!clean) addRetry(box, b);
+          onDone?.(clean);
         }
       } else {
         mistakes++;
@@ -269,22 +289,26 @@ function renderMatch(b, onDone) {
   const fb = feedbackNode();
   grid.append(leftCol, rightCol);
   box.append(grid, fb);
-  void leftBtns;
   return box;
 }
 
 /* ---------------- Tashqi API ---------------- */
 
-export function renderBlock(b, onExerciseDone) {
-  if (b.t === "quiz") return renderQuiz(b, onExerciseDone);
-  if (b.t === "fill") return renderFill(b, onExerciseDone);
-  if (b.t === "match") return renderMatch(b, onExerciseDone);
+export function isExercise(b) {
+  return b.t === "quiz" || b.t === "fill" || b.t === "match";
+}
 
+/** Faqat mashq bloklari uchun. onDone = null bo'lsa, natija hisobga olinmaydi. */
+export function renderExercise(b, onDone) {
+  if (b.t === "quiz") return renderQuiz(b, onDone);
+  if (b.t === "fill") return renderFill(b, onDone);
+  if (b.t === "match") return renderMatch(b, onDone);
+  throw new Error(`renderExercise: "${b.t}" mashq emas`);
+}
+
+export function renderBlock(b, onExerciseDone) {
+  if (isExercise(b)) return renderExercise(b, onExerciseDone ?? null);
   const node = renderStatic(b);
   node.classList.add("block");
   return node;
-}
-
-export function isExercise(b) {
-  return b.t === "quiz" || b.t === "fill" || b.t === "match";
 }

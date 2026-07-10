@@ -2,6 +2,7 @@ import "./style.css";
 import { categories, findLesson, flatLessons, lessonIndex, exerciseCount, totalLessons, totalExercises } from "./data/index.js";
 import { renderBlock, renderExercise, isExercise } from "./render.js";
 import * as progress from "./progress.js";
+import { renderThemeSwitch } from "./theme.js";
 
 const app = document.querySelector("#app");
 
@@ -45,6 +46,7 @@ function renderSidebar(route) {
     <div class="row"><span>Bajarildi</span><b>${done} / ${totalLessons}</b></div>
     <div class="bar"><i style="width:${pct}%"></i></div>`;
   bar.append(box);
+  bar.append(renderThemeSwitch());
 
   const dictBtn = document.createElement("button");
   dictBtn.className = "nav-item tool-link";
@@ -124,7 +126,7 @@ function renderHome() {
       const saved = progress.getLesson(cat.id, lesson.id);
       const badge = saved?.done
         ? `<span class="badge">${saved.correct}/${saved.total} ✓</span>`
-        : `<span class="badge" style="color:var(--ink-faint);background:transparent">${exerciseCount(lesson)} mashq</span>`;
+        : `<span class="badge" style="color:var(--faint);background:transparent">${exerciseCount(lesson)} mashq</span>`;
       row.innerHTML = `
         <span class="num">${i + 1}</span>
         <span class="name">${lesson.title}<small>${lesson.subtitle}</small></span>

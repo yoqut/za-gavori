@@ -1,6 +1,6 @@
 import "./style.css";
-import { categories, findLesson, flatLessons, lessonIndex, exerciseCount, totalLessons, totalExercises } from "./data/index.js";
-import { renderBlock, renderExercise, isExercise } from "./render.js";
+import { categories, findLesson, flatLessons, lessonIndex, totalLessons } from "./data/index.js";
+import { renderBlock } from "./render.js";
 import * as progress from "./progress.js";
 import { renderThemeSwitch } from "./theme.js";
 
@@ -59,7 +59,22 @@ function renderSidebar(route) {
   bar.append(dictBtn);
 
   categories.forEach((cat) => {
-    bar.append(Object.assign(document.createElement("div"), { className: "cat-title", textContent: cat.title }));
+    const open = isCatOpen(cat.id, route);
+
+    const header = document.createElement("button");
+    header.className = `cat-title${open ? " open" : ""}`;
+    const doneInCat = cat.lessons.filter((l) => progress.isDone(cat.id, l.id)).length;
+    header.innerHTML = `<span class="chev">▸</span><span class="cat-name">${cat.title}</span><span class="cat-count">${doneInCat}/${cat.lessons.length}</span>`;
+
+    const group = document.createElement("div");
+    group.className = `cat-lessons${open ? "" : " collapsed"}`;
+
+    header.addEventListener("click", () => {
+      const nowOpen = group.classList.toggle("collapsed") === false;
+      header.classList.toggle("open", nowOpen);
+      setCatOpen(cat.id, nowOpen);
+    });
+
     cat.lessons.forEach((lesson) => {
       const btn = document.createElement("button");
       btn.className = "nav-item";
@@ -72,21 +87,56 @@ function renderSidebar(route) {
         go(`/lesson/${cat.id}/${lesson.id}`);
         bar.classList.remove("open");
       });
-      bar.append(btn);
+      group.append(btn);
     });
+
+    bar.append(header, group);
   });
 
   return bar;
 }
 
+/* ---------------- Bo'limlarni ochish/yopish holati ---------------- */
+
+const OPEN_KEY = "russian-lessons-open-cats";
+
+function readOpenCats() {
+  try {
+    return JSON.parse(localStorage.getItem(OPEN_KEY)) ?? {};
+  } catch {
+    return {};
+  }
+}
+
+/** Saqlangan tanlov bo'lsa — o'shani; bo'lmasa, faqat joriy dars bo'limi ochiq. */
+function isCatOpen(catId, route) {
+  const saved = readOpenCats();
+  if (catId in saved) return Boolean(saved[catId]);
+  return route.name === "lesson" && route.catId === catId;
+}
+
+function setCatOpen(catId, open) {
+  const saved = readOpenCats();
+  saved[catId] = open;
+  try {
+    localStorage.setItem(OPEN_KEY, JSON.stringify(saved));
+  } catch {
+    // localStorage bloklangan — jim o'tamiz
+  }
+}
+
 /* ---------------- Bosh sahifa ---------------- */
+
+/** O'qilmagan birinchi dars — "davom etish" nuqtasi. Hammasi tugagan bo'lsa null. */
+function nextLesson() {
+  return flatLessons.find(({ cat, lesson }) => !progress.isDone(cat.id, lesson.id)) ?? null;
+}
 
 function renderHome() {
   const wrap = document.createElement("div");
   wrap.className = "wrap";
 
   const done = progress.doneCount();
-  const correct = progress.correctCount();
 
   const hero = document.createElement("div");
   hero.className = "hero";
@@ -95,28 +145,71 @@ function renderHome() {
     <h1>Rus tilini noldan o'rganamiz</h1>
     <p>
       «Русский язык для начинающих» darsligi asosida tuzilgan to'liq kurs.
-      Har bir mavzu o'zbek tilida sodda tushuntiriladi, jadvallar bilan mustahkamlanadi
-      va darrov mashq qilinadi. Tartib bilan boring — har bir dars oldingisiga tayanadi.
+      Har bir mavzu o'zbek tilida sodda tushuntiriladi va jadvallar bilan
+      mustahkamlanadi. Bir vaqtda bitta dars — shoshilmang.
     </p>`;
   wrap.append(hero);
 
+  /* Davom etish — o'quvchi butun ro'yxatni emas, faqat keyingi bitta qadamni ko'radi. */
+  const next = nextLesson();
+  const cont = document.createElement("button");
+  cont.className = "continue";
+  if (next) {
+    cont.innerHTML = `
+      <div class="continue-text">
+        <span class="continue-label">${done ? "Davom etish" : "Bu yerdan boshlang"}</span>
+        <strong>${next.lesson.title}</strong>
+        <small>${next.cat.emoji} ${next.cat.title}</small>
+      </div>
+      <span class="continue-go">▶</span>`;
+    cont.addEventListener("click", () => go(`/lesson/${next.cat.id}/${next.lesson.id}`));
+  } else {
+    cont.classList.add("finished");
+    cont.innerHTML = `
+      <div class="continue-text">
+        <span class="continue-label">Barakalla 🎉</span>
+        <strong>Barcha darslar o'qildi</strong>
+        <small>Lug'at yoki takror uchun istalgan darsga qayting</small>
+      </div>
+      <span class="continue-go">✓</span>`;
+    cont.addEventListener("click", () => go("/dict"));
+  }
+  wrap.append(cont);
+
+  const pct = Math.round((done / totalLessons) * 100);
   const stats = document.createElement("div");
   stats.className = "stats";
   stats.innerHTML = `
     <div class="stat"><b>${totalLessons}</b><span>ta dars, ${categories.length} kategoriyada</span></div>
-    <div class="stat"><b>${totalExercises}</b><span>ta interaktiv mashq</span></div>
-    <div class="stat"><b>${done ? `${done} / ${totalLessons}` : "0"}</b><span>bajarildi · ${correct} to'g'ri javob</span></div>`;
+    <div class="stat"><b>${done} / ${totalLessons}</b><span>bajarildi · ${pct}%</span></div>`;
   wrap.append(stats);
 
+  const sectionTitle = document.createElement("h2");
+  sectionTitle.className = "home-section";
+  sectionTitle.textContent = "Barcha bo'limlar";
+  wrap.append(sectionTitle);
 
   categories.forEach((cat) => {
-    const card = document.createElement("div");
-    card.className = "cat-card";
+    const doneInCat = cat.lessons.filter((l) => progress.isDone(cat.id, l.id)).length;
+    const allDone = doneInCat === cat.lessons.length;
+    /* Faqat joriy (keyingi darsni saqlagan) bo'lim ochiq — qolgani yig'iq. */
+    const isCurrent = next != null && next.cat.id === cat.id;
 
-    const header = document.createElement("header");
-    header.innerHTML = `<span class="emoji">${cat.emoji}</span><h2>${cat.title}</h2>`;
+    const card = document.createElement("div");
+    card.className = `cat-card${isCurrent ? "" : " collapsed"}`;
+
+    const header = document.createElement("button");
+    header.className = "cat-card-head";
+    header.innerHTML = `
+      <span class="emoji">${cat.emoji}</span>
+      <span class="cat-card-title">
+        <h2>${cat.title}</h2>
+        <small>${cat.desc}</small>
+      </span>
+      <span class="cat-card-count${allDone ? " done" : ""}">${doneInCat}/${cat.lessons.length}</span>
+      <span class="cat-card-chev">▾</span>`;
+    header.addEventListener("click", () => card.classList.toggle("collapsed"));
     card.append(header);
-    card.append(Object.assign(document.createElement("p"), { textContent: cat.desc }));
 
     const list = document.createElement("div");
     list.className = "lesson-list";
@@ -124,9 +217,13 @@ function renderHome() {
       const row = document.createElement("button");
       row.className = "lesson-row";
       const saved = progress.getLesson(cat.id, lesson.id);
+      const isNext = next != null && next.cat.id === cat.id && next.lesson.id === lesson.id;
+      if (isNext) row.classList.add("is-next");
       const badge = saved?.done
-        ? `<span class="badge">${saved.correct}/${saved.total} ✓</span>`
-        : `<span class="badge" style="color:var(--faint);background:transparent">${exerciseCount(lesson)} mashq</span>`;
+        ? `<span class="badge">✓ o'qildi</span>`
+        : isNext
+          ? `<span class="badge next-badge">keyingi</span>`
+          : `<span class="badge" style="color:var(--faint);background:transparent">o'qish</span>`;
       row.innerHTML = `
         <span class="num">${i + 1}</span>
         <span class="name">${lesson.title}<small>${lesson.subtitle}</small></span>
@@ -173,68 +270,24 @@ function renderLessonPage(route) {
     <div class="sub">${lesson.subtitle}</div>`;
   wrap.append(head);
 
-  const total = exerciseCount(lesson);
-  let answered = 0;
-  let correct = 0;
-  const wrong = [];
+  lesson.blocks.forEach((b) => wrap.append(renderBlock(b)));
 
-  const pill = document.createElement("span");
-  pill.className = "score-pill";
-  const updatePill = () => {
-    pill.textContent = total
-      ? `Mashqlar: ${answered} / ${total} · to'g'ri: ${correct}`
-      : "Bu darsda mashq yo'q";
-  };
-  updatePill();
-
-  /* Xatolar ustida ishlash — dars oxirida paydo bo'ladi. */
-  const review = document.createElement("section");
-  review.className = "review";
-
-  const buildReview = () => {
-    review.replaceChildren();
-    if (!wrong.length) {
-      review.innerHTML = `
-        <div class="callout tip block">
-          <b>Dars tugadi — barcha mashq to'g'ri! 🎉</b>
-          <span>Xato qilmadingiz, takrorlash uchun hech narsa yo'q. Keyingi darsga o'tishingiz mumkin.</span>
-        </div>`;
-      return;
-    }
-    review.append(
-      Object.assign(document.createElement("h3"), {
-        className: "lesson-h",
-        textContent: `Xatolar ustida ishlash (${wrong.length} ta)`,
-      }),
-    );
-    const note = document.createElement("div");
-    note.className = "callout warn block";
-    note.innerHTML = `<b>Xato qilgan mashqlaringiz</b><span>Ular yangidan berilyapti. Bu urinishlar bahoingizni o'zgartirmaydi — yodlash uchun.</span>`;
-    review.append(note);
-    // onDone = null: takroriy urinish natijasi hisobga olinmaydi.
-    wrong.forEach((b) => review.append(renderExercise(b, null)));
-  };
-
-  const onExerciseDone = (block, ok) => {
-    answered++;
-    if (ok) correct++;
-    else wrong.push(block);
-    updatePill();
-    if (answered === total) {
-      progress.saveResult(cat.id, lesson.id, correct, total);
-      // Sidebar dagi belgini yangilaymiz, sahifani qayta chizmasdan.
-      document.querySelector(".sidebar")?.replaceWith(renderSidebar(route));
-      buildReview();
-      review.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
-
-  lesson.blocks.forEach((b) => {
-    const node = renderBlock(b, isExercise(b) ? (ok) => onExerciseDone(b, ok) : undefined);
-    wrap.append(node);
+  /* Darsni "o'qib chiqdim" tugmasi bilan belgilanadi. */
+  const readBox = document.createElement("div");
+  readBox.className = "read-done";
+  const already = progress.isDone(cat.id, lesson.id);
+  const btn = document.createElement("button");
+  btn.className = "btn";
+  btn.textContent = already ? "✓ O'qildi" : "O'qib chiqdim";
+  btn.disabled = already;
+  btn.addEventListener("click", () => {
+    progress.markRead(cat.id, lesson.id);
+    btn.textContent = "✓ O'qildi";
+    btn.disabled = true;
+    document.querySelector(".sidebar")?.replaceWith(renderSidebar(route));
   });
-
-  if (total) wrap.append(review);
+  readBox.append(btn);
+  wrap.append(readBox);
 
   /* Oldingi / keyingi */
   const idx = lessonIndex(cat.id, lesson.id);
@@ -252,7 +305,6 @@ function renderLessonPage(route) {
     foot.append(b);
   }
 
-  foot.append(pill);
   foot.append(Object.assign(document.createElement("div"), { className: "spacer" }));
 
   if (next) {

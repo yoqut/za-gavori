@@ -1,8 +1,8 @@
 /* Dars ma'lumotlarining butunligini tekshiradi: `npm run check`
- * Yangi dars yozganda yoki mashq tahrirlaganda ishga tushiring.
+ * Yangi dars yozganda ishga tushiring.
  */
 
-import { categories, flatLessons, totalExercises } from "../src/data/index.js";
+import { categories, flatLessons } from "../src/data/index.js";
 import dictNouns, { skipped as dictSkipped } from "../src/data/dict-nouns.js";
 import dictAdjectives from "../src/data/dict-adjectives.js";
 import dictVerbs from "../src/data/dict-verbs.js";
@@ -26,18 +26,7 @@ for (const cat of categories) {
     lesson.blocks.forEach((b, i) => {
       const at = `${cat.id}/${lesson.id} blok#${i} (${b.t})`;
 
-      if (b.t === "quiz") {
-        if (!Array.isArray(b.options) || b.options.length < 2) errors.push(`${at}: variantlar yetarli emas`);
-        else if (typeof b.answer !== "number" || b.answer < 0 || b.answer >= b.options.length)
-          errors.push(`${at}: javob indeksi diapazondan tashqarida (${b.answer})`);
-        if (new Set(b.options).size !== b.options?.length) errors.push(`${at}: bir xil variantlar bor`);
-      } else if (b.t === "fill") {
-        if (!Array.isArray(b.answer) || !b.answer.length) errors.push(`${at}: javob yo'q`);
-        if (!/_/.test(b.q ?? "")) errors.push(`${at}: savolda bo'sh joy ("___") yo'q`);
-      } else if (b.t === "match") {
-        if (!Array.isArray(b.pairs) || b.pairs.length < 2) errors.push(`${at}: juftliklar yetarli emas`);
-        for (const p of b.pairs ?? []) if (p?.length !== 2) errors.push(`${at}: juftlik ikki elementdan iborat emas`);
-      } else if (b.t === "table") {
+      if (b.t === "table") {
         const cols = b.head?.length;
         b.rows.forEach((row, r) => {
           if (cols && row.length !== cols) errors.push(`${at}: ${r}-qatorda ${row.length} katak, sarlavhada ${cols}`);
@@ -87,7 +76,7 @@ for (const v of dictVerbs) {
 }
 
 /* --- Natija --- */
-console.log(`${categories.length} kategoriya · ${flatLessons.length} dars · ${totalExercises} mashq`);
+console.log(`${categories.length} kategoriya · ${flatLessons.length} dars`);
 console.log(
   `lug'at: ${dictVerbs.length} fe'l · ${dictNouns.length} ot · ${dictAdjectives.length} sifat · ` +
     `${dictSkipped.length} ot jadvalsiz`,

@@ -6,8 +6,9 @@ import numTime from "./04-numbers-time.js";
 import aspect from "./05-aspect.js";
 import motion from "./06-motion.js";
 import reflexive from "./07-reflexive.js";
+import reading from "./08-reading.js";
 
-export const categories = [alphabet, intro, casesSg, casesPl, numTime, aspect, motion, reflexive];
+export const categories = [alphabet, intro, casesSg, casesPl, numTime, aspect, motion, reflexive, reading];
 
 /** Barcha darslar — tekis ro'yxat, "oldingi / keyingi" tugmalari uchun. */
 export const flatLessons = categories.flatMap((cat) =>
@@ -22,10 +23,4 @@ export function lessonIndex(catId, lessonId) {
   return flatLessons.findIndex((x) => x.cat.id === catId && x.lesson.id === lessonId);
 }
 
-/** Darsdagi mashqlar soni (quiz / fill / match). */
-export function exerciseCount(lesson) {
-  return lesson.blocks.filter((b) => b.t === "quiz" || b.t === "fill" || b.t === "match").length;
-}
-
 export const totalLessons = flatLessons.length;
-export const totalExercises = flatLessons.reduce((n, x) => n + exerciseCount(x.lesson), 0);

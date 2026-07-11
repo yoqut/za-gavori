@@ -2,7 +2,7 @@ const KEY = "russian-lessons-progress-v1";
 
 /**
  * Saqlanadigan shakl:
- * { "catId/lessonId": { done: true, correct: 5, total: 7 } }
+ * { "catId/lessonId": { done: true, read: true } }
  */
 function read() {
   try {
@@ -30,18 +30,15 @@ export function isDone(catId, lessonId) {
   return Boolean(getLesson(catId, lessonId)?.done);
 }
 
-export function saveResult(catId, lessonId, correct, total) {
+/** Darsni "o'qib chiqdim" deb belgilaydi. */
+export function markRead(catId, lessonId) {
   const data = read();
-  data[key(catId, lessonId)] = { done: true, correct, total };
+  data[key(catId, lessonId)] = { done: true, read: true };
   write(data);
 }
 
 export function doneCount() {
   return Object.values(read()).filter((x) => x.done).length;
-}
-
-export function correctCount() {
-  return Object.values(read()).reduce((n, x) => n + (x.correct ?? 0), 0);
 }
 
 export function reset() {

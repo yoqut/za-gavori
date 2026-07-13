@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Rus tilini noldan o'rganish uchun interaktiv kurs — o'zbek tilida." />
+    <title>Rus tili darslari — A1–A2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+    />
+    <!-- CSS dan oldin ishlaydi: birinchi kadrda oq chaqnash bo'lmasin.
+         Default — qorong'i; faqat aniq "light" tanlangani hisobga olinadi. -->
+    <script>
+      (function () {
+        var saved;
+        try {
+          saved = localStorage.getItem("russian-lessons-theme");
+        } catch (e) {}
+        document.documentElement.dataset.theme = saved === "light" ? "light" : "dark";
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-CKCnA1wb.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DwCXt-M8.css">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>

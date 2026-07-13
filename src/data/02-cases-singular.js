@@ -1,5 +1,9 @@
 // Kategoriya 2 — Predlog-kelishik tizimi, BIRLIK (kitobning 24–84-betlari)
 
+// To'liq mustaqil interaktiv dars (dizayn + mashqlar). Xom HTML sifatida
+// import qilinadi va "embed" bloki orqali iframe'da aynan chiziladi.
+import dativeFullHtml from "./datelniy-padej.html?raw";
+
 export default {
   id: "cases-sg",
   emoji: "🧩",
@@ -485,6 +489,20 @@ export default {
             { ru: "Преподава́тель объясня́ет пра́вило <b class='hl'>но́вому студе́нту</b>.", uz: "O'qituvchi yangi talabaga qoidani tushuntiryapti." },
             { ru: "<b class='hl'>Мое́й мла́дшей сестре́</b> пять лет.", uz: "Mening kichik singlim besh yoshda." },
           ],
+        },
+      ],
+    },
+
+    /* ---------------------------------------------------------------- */
+    {
+      id: "dative-full",
+      title: "3+. Дательный падеж — to'liq darslik va mashqlar",
+      subtitle: "Batafsil qo'llanma: qoidalar, fe'llar, predloglar va 5 blok interaktiv mashq (kому? чему?).",
+      blocks: [
+        {
+          t: "embed",
+          title: "Дательный падеж — to'liq darslik va mashqlar",
+          html: dativeFullHtml,
         },
       ],
     },

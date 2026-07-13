@@ -75,6 +75,32 @@ function renderStatic(b) {
       return node;
     }
 
+    case "embed": {
+      // To'liq mustaqil HTML hujjatni o'z browsing-context'ida chizamiz:
+      // asl dizayn, mashqlar va script aynan saqlanadi, ilova uslublariga
+      // ta'sir qilmaydi. Balandligini ichki kontentga moslaydi.
+      const wrap = el("div", "embed");
+      const frame = document.createElement("iframe");
+      frame.className = "embed-frame";
+      frame.title = b.title ?? "";
+      frame.srcdoc = b.html;
+      frame.addEventListener("load", () => {
+        try {
+          const doc = frame.contentDocument;
+          const resize = () => {
+            frame.style.height = doc.documentElement.scrollHeight + "px";
+          };
+          resize();
+          // Mashqlar javob berilganda kontent kengayadi — balandlikni yangilaymiz.
+          new frame.contentWindow.ResizeObserver(resize).observe(doc.body);
+        } catch {
+          // Kontentga kira olmasak — jim o'tamiz.
+        }
+      });
+      wrap.append(frame);
+      return wrap;
+    }
+
     case "dialog": {
       const node = el("div", "dialog");
       b.lines.forEach((l) => {

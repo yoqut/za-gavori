@@ -759,6 +759,13 @@ h4 {
   margin-bottom: 24px;
 }
 
+.embed-frame {
+  display: block;
+  width: 100%;
+  border: 0;
+  overflow: hidden;
+}
+
 h3.lesson-h {
   font-family: var(--serif);
   font-weight: 700;

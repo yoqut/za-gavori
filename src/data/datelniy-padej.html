@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Дательный падеж — to'liq darslik va mashqlar</title>
+<style>
+  :root{
+    --bg:#0f1115;
+    --card:#171a21;
+    --card2:#1e222b;
+    --line:#2b3140;
+    --text:#e8eaed;
+    --muted:#9aa3b2;
+    --acc:#4f9cf9;      /* asosiy */
+    --uz:#f0b429;       /* o'zbekcha izoh */
+    --ok:#3ecf8e;
+    --err:#f2555a;
+    --ru:#c792ea;       /* ruscha misol */
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    line-height:1.6;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:24px 18px 80px}
+  header{
+    border-bottom:2px solid var(--line);padding-bottom:18px;margin-bottom:28px;
+  }
+  h1{margin:0 0 6px;font-size:30px;letter-spacing:-.5px}
+  h1 span{color:var(--acc)}
+  .sub{color:var(--muted);font-size:15px;margin:0}
+  .badge{display:inline-block;background:rgba(79,156,249,.15);color:var(--acc);
+    border:1px solid rgba(79,156,249,.35);padding:2px 10px;border-radius:20px;font-size:12px;
+    font-weight:600;margin-top:10px}
+  h2{
+    font-size:22px;margin:38px 0 14px;padding-left:12px;
+    border-left:4px solid var(--acc);
+  }
+  h3{font-size:17px;margin:24px 0 10px;color:#cdd5e0}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:18px 20px;margin:14px 0;
+  }
+  .ru{color:var(--ru);font-weight:600}
+  .uz{color:var(--uz)}
+  .tag{
+    display:inline-block;font-size:11px;font-weight:700;letter-spacing:.5px;
+    background:var(--card2);border:1px solid var(--line);color:var(--muted);
+    padding:2px 8px;border-radius:5px;margin-right:6px;text-transform:uppercase;
+  }
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14.5px}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:var(--card2);color:#cfd6e2;font-weight:600;font-size:13px}
+  td.hl{color:var(--ru);font-weight:600}
+  tr:nth-child(even) td{background:rgba(255,255,255,.015)}
+  .end{background:rgba(199,146,234,.18);color:#e2c9ff;padding:1px 7px;border-radius:5px;font-weight:700}
+  ul{padding-left:20px;margin:8px 0}
+  li{margin:5px 0}
+  .note{
+    background:rgba(240,180,41,.08);border:1px solid rgba(240,180,41,.3);
+    border-radius:10px;padding:12px 16px;margin:14px 0;font-size:14.5px;
+  }
+  .note b{color:var(--uz)}
+  .danger{
+    background:rgba(242,85,90,.08);border:1px solid rgba(242,85,90,.3);
+  }
+  .danger b{color:var(--err)}
+  .ex{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:20px;margin:18px 0;
+  }
+  .q{margin:14px 0;padding:12px 14px;background:var(--card2);border-radius:9px;
+     border-left:3px solid var(--line)}
+  .q.good{border-left-color:var(--ok)}
+  .q.bad{border-left-color:var(--err)}
+  .qtext{font-size:15.5px;margin-bottom:8px}
+  .qtext b{color:var(--ru)}
+  .hint{font-size:13px;color:var(--muted);margin-top:4px}
+  input[type=text]{
+    background:#0c0e13;border:1px solid var(--line);color:var(--text);
+    padding:7px 11px;border-radius:7px;font-size:15px;width:190px;outline:none;
+    font-family:inherit;
+  }
+  input[type=text]:focus{border-color:var(--acc)}
+  .opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .opt{
+    background:#0c0e13;border:1px solid var(--line);color:var(--text);
+    padding:7px 14px;border-radius:8px;cursor:pointer;font-size:15px;
+    transition:.15s;font-family:inherit;
+  }
+  .opt:hover{border-color:var(--acc);background:#141922}
+  .opt.sel{border-color:var(--acc);background:rgba(79,156,249,.18)}
+  .opt.right{border-color:var(--ok);background:rgba(62,207,142,.2);color:#c8ffe6}
+  .opt.wrong{border-color:var(--err);background:rgba(242,85,90,.18);color:#ffd3d4}
+  .fb{margin-top:8px;font-size:14px;display:none}
+  .fb.show{display:block}
+  .fb.ok{color:var(--ok)}
+  .fb.no{color:var(--err)}
+  .fb small{display:block;color:var(--muted);margin-top:3px}
+  button.check{
+    background:var(--acc);color:#04101f;border:none;padding:10px 22px;
+    border-radius:9px;font-weight:700;cursor:pointer;font-size:14.5px;margin-top:12px;
+    font-family:inherit;
+  }
+  button.check:hover{filter:brightness(1.1)}
+  button.reset{
+    background:transparent;color:var(--muted);border:1px solid var(--line);
+    padding:10px 18px;border-radius:9px;cursor:pointer;font-size:14px;margin-left:8px;
+    font-family:inherit;
+  }
+  .score{
+    display:inline-block;margin-left:14px;font-weight:700;font-size:15px;color:var(--muted);
+  }
+  .total{
+    position:sticky;bottom:0;background:linear-gradient(180deg,rgba(15,17,21,0),var(--bg) 30%);
+    padding:18px 0 8px;text-align:center;font-size:16px;font-weight:700;
+  }
+  .total span{color:var(--acc)}
+  code{background:#0c0e13;padding:1px 6px;border-radius:5px;font-size:13.5px;color:#a8d4ff}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Дательный падеж — <span>jo'nalish kelishigi</span></h1>
+  <p class="sub">Savollari: <span class="ru">кому? чему?</span> — kimga? nimaga? · O'zbek tilidagi <b>-ga / -ka / -qa</b> qo'shimchasiga eng yaqin kelishik.</p>
+  <div class="badge">A2 daraja · Batafsil darslik + 5 blok mashq</div>
+</header>
+
+<h2>1. Umumiy mantiq</h2>
+<div class="card">
+  <p>Дательный падеж — bu <b>harakat kimga qaratilganini</b> ko'rsatuvchi kelishik. Gapda odatda <b>bilvosita to'ldiruvchi</b> (адресат) bo'ladi:</p>
+  <p style="margin:14px 0"><span class="ru">Я подарил книгу <span class="end">другу</span>.</span> <span class="uz">— Men do'stim<b>ga</b> kitob sovg'a qildim.</span></p>
+  <table>
+    <tr><th>Kim?</th><th>Nima qildi?</th><th>Nimani? (В.п.)</th><th>Kimga? (Д.п.)</th></tr>
+    <tr><td class="hl">Я</td><td>подарил</td><td>книгу</td><td class="hl">другу</td></tr>
+    <tr><td class="hl">Менеджер</td><td>отправил</td><td>прайс</td><td class="hl">клиенту</td></tr>
+  </table>
+  <div class="note"><b>Asosiy tuyg'u:</b> agar o'zbekchada gapda <b>-ga</b> qo'shimchasi bo'lsa (do'stim<b>ga</b>, mijoz<b>ga</b>, menejer<b>ga</b>) — 90% hollarda ruschada дательный падеж kerak bo'ladi.</div>
+</div>
+
+<h2>2. Otlarning tugallanishlari (birlik)</h2>
+<div class="card">
+<table>
+  <tr>
+    <th>Jins / turi</th><th>Именительный (bosh shakl)</th><th>Дательный</th><th>Qoida</th>
+  </tr>
+  <tr><td>Erkak jins, undosh bilan</td><td>стол, друг, клиент</td><td class="hl">стол<span class="end">у</span>, друг<span class="end">у</span>, клиент<span class="end">у</span></td><td>+ <b>-у</b></td></tr>
+  <tr><td>Erkak jins, -й / -ь</td><td>музей, учитель</td><td class="hl">музе<span class="end">ю</span>, учител<span class="end">ю</span></td><td>+ <b>-ю</b></td></tr>
+  <tr><td>O'rta jins -о</td><td>окно, письмо</td><td class="hl">окн<span class="end">у</span>, письм<span class="end">у</span></td><td>+ <b>-у</b></td></tr>
+  <tr><td>O'rta jins -е / -ие</td><td>море, здание</td><td class="hl">мор<span class="end">ю</span>, здани<span class="end">ю</span></td><td>+ <b>-ю</b></td></tr>
+  <tr><td>Ayol jins -а / -я</td><td>мама, тётя, Анна</td><td class="hl">мам<span class="end">е</span>, тёт<span class="end">е</span>, Анн<span class="end">е</span></td><td>+ <b>-е</b></td></tr>
+  <tr><td>Ayol jins <b>-ия</b></td><td>Мария, лекция, Россия</td><td class="hl">Мари<span class="end">и</span>, лекци<span class="end">и</span>, Росси<span class="end">и</span></td><td>+ <b>-ии</b> ⚠</td></tr>
+  <tr><td>Ayol jins yumshoq -ь</td><td>дверь, площадь, мать</td><td class="hl">двер<span class="end">и</span>, площад<span class="end">и</span>, матер<span class="end">и</span></td><td>+ <b>-и</b></td></tr>
+</table>
+<div class="note"><b>Eng ko'p xato:</b> <span class="ru">Мария → Марие</span> ✗ — noto'g'ri. To'g'risi: <span class="ru">Марии</span> ✓. Agar so'z <b>-ия</b> bilan tugasa, дательный <b>-ии</b> bo'ladi (предложный bilan bir xil).</div>
+</div>
+
+<h3>Ko'plik — juda oson</h3>
+<div class="card">
+  <p>Ko'plikda <b>barcha jinslar uchun bitta qoida</b>: <span class="end">-ам</span> (qattiq) yoki <span class="end">-ям</span> (yumshoq).</p>
+  <table>
+    <tr><th>Bosh shakl</th><th>Дательный ko'plik</th><th>Bosh shakl</th><th>Дательный ko'plik</th></tr>
+    <tr><td>студенты</td><td class="hl">студент<span class="end">ам</span></td><td>учителя</td><td class="hl">учител<span class="end">ям</span></td></tr>
+    <tr><td>клиенты</td><td class="hl">клиент<span class="end">ам</span></td><td>друзья</td><td class="hl">друзь<span class="end">ям</span></td></tr>
+    <tr><td>мамы</td><td class="hl">мам<span class="end">ам</span></td><td>двери</td><td class="hl">двер<span class="end">ям</span></td></tr>
+    <tr><td>окна</td><td class="hl">окн<span class="end">ам</span></td><td>здания</td><td class="hl">здани<span class="end">ям</span></td></tr>
+  </table>
+  <p><b>Istisnolar (yodlash kerak):</b><br>
+  <span class="ru">люди → людям · дети → детям · мать → матерям · дочь → дочерям · время → временам · имя → именам · брат → братьям · сын → сыновьям</span></p>
+</div>
+
+<h2>3. Sifatlar (прилагательные)</h2>
+<div class="card">
+<table>
+  <tr><th>Jins</th><th>Qattiq negiz</th><th>Yumshoq negiz</th><th>Misol</th></tr>
+  <tr><td>Erkak / O'rta</td><td class="hl">-ому</td><td class="hl">-ему</td><td><span class="ru">нов<b>ому</b> клиенту, син<b>ему</b> морю, хорош<b>ему</b> другу</span></td></tr>
+  <tr><td>Ayol</td><td class="hl">-ой</td><td class="hl">-ей</td><td><span class="ru">нов<b>ой</b> компании, син<b>ей</b> двери</span></td></tr>
+  <tr><td>Ko'plik</td><td class="hl">-ым</td><td class="hl">-им</td><td><span class="ru">нов<b>ым</b> клиентам, син<b>им</b> дверям</span></td></tr>
+</table>
+<div class="note"><b>Diqqat:</b> ayol jinsda дательный (<span class="ru">новой</span>) va родительный (<span class="ru">новой</span>) shakllari <b>bir xil</b> — faqat kontekstdan ajratiladi.</div>
+</div>
+
+<h2>4. Olmoshlar — yodlash majburiy</h2>
+<div class="card">
+<table>
+  <tr><th>Bosh shakl</th><th>Дательный</th><th>Predlogdan keyin</th><th>Misol</th></tr>
+  <tr><td>я</td><td class="hl">мне</td><td>мне</td><td><span class="ru">Мне холодно.</span></td></tr>
+  <tr><td>ты</td><td class="hl">тебе</td><td>тебе</td><td><span class="ru">Я звоню тебе.</span></td></tr>
+  <tr><td>он / оно</td><td class="hl">ему</td><td><b>нему</b></td><td><span class="ru">Я иду к <b>нему</b>.</span></td></tr>
+  <tr><td>она</td><td class="hl">ей</td><td><b>ней</b></td><td><span class="ru">Подойди к <b>ней</b>.</span></td></tr>
+  <tr><td>мы</td><td class="hl">нам</td><td>нам</td><td><span class="ru">Нам нужно время.</span></td></tr>
+  <tr><td>вы</td><td class="hl">вам</td><td>вам</td><td><span class="ru">Вам помочь?</span></td></tr>
+  <tr><td>они</td><td class="hl">им</td><td><b>ним</b></td><td><span class="ru">Я пишу им. / Иду к ним.</span></td></tr>
+  <tr><td>кто / что</td><td class="hl">кому / чему</td><td>—</td><td><span class="ru">Кому ты звонил?</span></td></tr>
+  <tr><td>этот / эта / эти</td><td class="hl">этому / этой / этим</td><td>—</td><td><span class="ru">По этому вопросу…</span></td></tr>
+  <tr><td>мой / моя / мои</td><td class="hl">моему / моей / моим</td><td>—</td><td><span class="ru">Моему коллеге</span></td></tr>
+  <tr><td>весь / вся / все</td><td class="hl">всему / всей / всем</td><td>—</td><td><span class="ru">Всем спасибо!</span></td></tr>
+  <tr><td>себя</td><td class="hl">себе</td><td>—</td><td><span class="ru">Купи себе кофе.</span></td></tr>
+</table>
+<div class="note"><b>Qoida:</b> 3-shaxs olmoshlari (<span class="ru">ему, ей, им</span>) predlogdan keyin <b>н-</b> harfini oladi: <span class="ru">к нему, к ней, к ним</span>. Predlogsiz — <span class="ru">ему, ей, им</span>.</div>
+</div>
+
+<h2>5. Дательный падежni talab qiladigan fe'llar</h2>
+<div class="card">
+  <p>Bu fe'llar <b>doim</b> кому? savoliga javob beruvchi so'zni oladi. Ko'p xato aynan shu yerda bo'ladi, chunki o'zbekchada ba'zilari boshqacha boshqariladi.</p>
+  <table>
+    <tr><th>Fe'l</th><th>Ma'nosi</th><th>Misol</th></tr>
+    <tr><td class="hl">звонить / позвонить</td><td>qo'ng'iroq qilmoq</td><td><span class="ru">Я звоню <b>клиенту</b>.</span></td></tr>
+    <tr><td class="hl">помогать / помочь</td><td>yordam bermoq</td><td><span class="ru">Он помогает <b>коллеге</b>.</span></td></tr>
+    <tr><td class="hl">говорить / сказать</td><td>aytmoq</td><td><span class="ru">Скажи <b>мне</b> правду.</span></td></tr>
+    <tr><td class="hl">отвечать / ответить</td><td>javob bermoq</td><td><span class="ru">Ответь <b>директору</b>.</span></td></tr>
+    <tr><td class="hl">объяснять / объяснить</td><td>tushuntirmoq</td><td><span class="ru">Объясни <b>команде</b> задачу.</span></td></tr>
+    <tr><td class="hl">показывать / показать</td><td>ko'rsatmoq</td><td><span class="ru">Покажи <b>заказчику</b> сайт.</span></td></tr>
+    <tr><td class="hl">дарить / подарить</td><td>sovg'a qilmoq</td><td><span class="ru">Он подарил <b>жене</b> цветы.</span></td></tr>
+    <tr><td class="hl">советовать / посоветовать</td><td>maslahat bermoq</td><td><span class="ru">Я советую <b>вам</b> подождать.</span></td></tr>
+    <tr><td class="hl">обещать / пообещать</td><td>va'da bermoq</td><td><span class="ru">Я обещал <b>партнёру</b> скидку.</span></td></tr>
+    <tr><td class="hl">верить / поверить</td><td>ishonmoq</td><td><span class="ru">Я верю <b>тебе</b>.</span></td></tr>
+    <tr><td class="hl">мешать / помешать</td><td>xalaqit bermoq</td><td><span class="ru">Шум мешает <b>мне</b> работать.</span></td></tr>
+    <tr><td class="hl">разрешать / запрещать</td><td>ruxsat bermoq / taqiqlamoq</td><td><span class="ru">Мама разрешила <b>сыну</b> гулять.</span></td></tr>
+    <tr><td class="hl">принадлежать</td><td>tegishli bo'lmoq</td><td><span class="ru">Компания принадлежит <b>ему</b>.</span></td></tr>
+    <tr><td class="hl">радоваться / удивляться</td><td>xursand bo'lmoq / hayron bo'lmoq</td><td><span class="ru">Я радуюсь <b>успеху</b>.</span></td></tr>
+    <tr><td class="hl">завидовать</td><td>hasad qilmoq</td><td><span class="ru">Он завидует <b>другу</b>.</span></td></tr>
+    <tr><td class="hl">улыбаться</td><td>tabassum qilmoq</td><td><span class="ru">Она улыбается <b>ребёнку</b>.</span></td></tr>
+    <tr><td class="hl">учиться</td><td>o'rganmoq (nimani)</td><td><span class="ru">Я учусь <b>русскому языку</b>.</span></td></tr>
+  </table>
+  <div class="note danger"><b>Eng tez-tez uchraydigan xatolar:</b><br>
+    ✗ <span class="ru">Я звоню <s>клиента</s></span> → ✓ <span class="ru">Я звоню <b>клиенту</b></span><br>
+    ✗ <span class="ru">Он помогает <s>меня</s></span> → ✓ <span class="ru">Он помогает <b>мне</b></span><br>
+    O'zbekchada "mijoz<b>ni</b> chaqirmoq" degan tuyg'u ta'sirida В.п. ishlatib yuborish xavfi bor.
+  </div>
+</div>
+
+<h2>6. Shaxssiz konstruksiyalar (безличные)</h2>
+<div class="card">
+  <p>Bu — дательныйning eng "ruscha" ishlatilishi. Gapda <b>bosh kelishikdagi ega yo'q</b>, holatni boshdan kechirayotgan shaxs дательныйda turadi.</p>
+  <h3>a) Holat va his-tuyg'u</h3>
+  <table>
+    <tr><th>Konstruksiya</th><th>Tarjima</th></tr>
+    <tr><td class="hl">Мне холодно / жарко / душно</td><td>Menga sovuq / issiq / dim</td></tr>
+    <tr><td class="hl">Ему скучно / грустно / весело</td><td>U zerikyapti / g'amgin / xursand</td></tr>
+    <tr><td class="hl">Нам интересно</td><td>Bizga qiziq</td></tr>
+    <tr><td class="hl">Ей плохо / нехорошо</td><td>Uning ahvoli yomon</td></tr>
+    <tr><td class="hl">Мне было трудно / будет легко</td><td>Menga qiyin edi / oson bo'ladi</td></tr>
+  </table>
+  <div class="note">O'tgan zamonda <b>было</b>, kelasi zamonda <b>будет</b> qo'shiladi — jins bo'yicha o'zgarmaydi: <span class="ru">Мне <b>было</b> холодно. Нам <b>будет</b> интересно.</span></div>
+
+  <h3>b) Modallik: надо / нужно / можно / нельзя / необходимо / пора</h3>
+  <p>Sxema: <b>КОМУ + надо/нужно + infinitiv</b></p>
+  <ul>
+    <li><span class="ru">Мне нужно закончить проект.</span> <span class="uz">— Loyihani tugatishim kerak.</span></li>
+    <li><span class="ru">Вам надо позвонить в банк.</span> <span class="uz">— Bankka qo'ng'iroq qilishingiz kerak.</span></li>
+    <li><span class="ru">Здесь нельзя курить.</span> <span class="uz">— Bu yerda chekish mumkin emas.</span> <span class="hint">(shaxs ko'rsatilmasa ham bo'ladi)</span></li>
+    <li><span class="ru">Нам пора идти.</span> <span class="uz">— Bizga ketish vaqti bo'ldi.</span></li>
+  </ul>
+  <div class="note danger"><b>Xato:</b> ✗ <span class="ru"><s>Я нужно работать</s></span> → ✓ <span class="ru"><b>Мне</b> нужно работать</span>. Bu konstruksiyada <b>я</b> emas, <b>мне</b> bo'ladi.</div>
+
+  <h3>c) Yosh (возраст)</h3>
+  <ul>
+    <li><span class="ru">— Сколько <b>тебе</b> лет? — <b>Мне</b> 30 лет.</span></li>
+    <li><span class="ru"><b>Моему сыну</b> 5 лет.</span> <span class="uz">— O'g'lim 5 yoshda.</span></li>
+    <li><span class="ru"><b>Компании</b> было 3 года, когда…</span> <span class="uz">— Kompaniya 3 yoshda edi…</span></li>
+  </ul>
+  <div class="note danger"><b>Xato:</b> ✗ <span class="ru"><s>У меня 30 лет</s></span> (bu fransuzcha/o'zbekcha ta'sir) → ✓ <span class="ru"><b>Мне</b> 30 лет</span>.</div>
+
+  <h3>d) Нравиться — "yoqmoq"</h3>
+  <p>Bu yerda mantiq <b>teskari</b>: o'zbekchada "men saytni yoqtiraman" emas, "<b>menga</b> sayt yoqadi".</p>
+  <table>
+    <tr><th>Kimga (Д.п.)</th><th>Fe'l</th><th>Nima yoqadi (И.п. — EGA!)</th></tr>
+    <tr><td class="hl">Мне</td><td>нравится</td><td>этот сайт</td></tr>
+    <tr><td class="hl">Ему</td><td>нравятся</td><td>такие проекты</td></tr>
+    <tr><td class="hl">Клиенту</td><td>понравился</td><td>дизайн</td></tr>
+  </table>
+  <div class="note"><b>Fe'l "yoqayotgan narsa"ga moslashadi:</b> bitta narsa → <span class="ru">нравит<b>ся</b></span>, ko'p narsa → <span class="ru">нравят<b>ся</b></span>.<br>
+  O'tgan zamonda: <span class="ru">понравил<b>ся</b></span> (m), <span class="ru">понравила<b>сь</b></span> (f), <span class="ru">понравило<b>сь</b></span> (n), <span class="ru">понравили<b>сь</b></span> (pl).<br>
+  Shu qolipda ishlaydigan boshqa fe'llar: <span class="ru">подходить</span> (mos kelmoq), <span class="ru">удаваться</span> (uddalamoq), <span class="ru">хватать</span> (yetmoq): <span class="ru">Мне не хватает времени.</span></div>
+</div>
+
+<h2>7. Predloglar (предлоги) + дательный</h2>
+<div class="card">
+  <h3>К / КО — "…ga tomon, …nikiga"</h3>
+  <ul>
+    <li><b>Yo'nalish (jonli obyektga):</b> <span class="ru">Я иду <b>к врачу</b>.</span> <span class="uz">— Shifokorga boryapman.</span></li>
+    <li><b>Yaqinlashish:</b> <span class="ru">Подойди <b>к окну</b>.</span> <span class="uz">— Deraza oldiga bor.</span></li>
+    <li><b>Vaqt chegarasi:</b> <span class="ru">Отчёт будет готов <b>к пятнице</b>.</span> <span class="uz">— Hisobot juma<b>gacha</b> tayyor bo'ladi.</span></li>
+    <li><b>Qo'shimcha:</b> <span class="ru">ко</span> shakli undosh to'plami oldida: <span class="ru">ко мне, ко всем, ко второму</span>.</li>
+  </ul>
+  <div class="note"><b>Muhim farq:</b> <span class="ru">Я иду <b>к другу</b></span> (do'stim<b>nikiga</b>, odamga) vs <span class="ru">Я иду <b>в офис</b></span> (joyga — В.п.). Odamga → <b>к + Д.п.</b>, joyga → <b>в/на + В.п.</b></div>
+
+  <h3>ПО — eng ko'p ma'noli predlog</h3>
+  <table>
+    <tr><th>Ma'no</th><th>Misol</th><th>Tarjima</th></tr>
+    <tr><td>bo'ylab, ichida yurish</td><td><span class="ru">гулять <b>по городу</b>, идти <b>по улице</b></span></td><td>shahar bo'ylab sayr qilmoq</td></tr>
+    <tr><td>vosita orqali</td><td><span class="ru">говорить <b>по телефону</b>, отправить <b>по почте</b></span></td><td>telefonda gaplashmoq</td></tr>
+    <tr><td>soha / mavzu bo'yicha</td><td><span class="ru">специалист <b>по маркетингу</b>, экзамен <b>по русскому языку</b></span></td><td>marketing bo'yicha mutaxassis</td></tr>
+    <tr><td>takrorlanuvchi vaqt</td><td><span class="ru"><b>по понедельникам</b>, <b>по вечерам</b>, <b>по выходным</b></span></td><td>dushanbalari, kechqurunlari</td></tr>
+    <tr><td>sabab (rasmiy)</td><td><span class="ru"><b>по ошибке</b>, <b>по этой причине</b></span></td><td>xato bilan, shu sababdan</td></tr>
+  </table>
+  <div class="note danger"><b>Xato:</b> ✗ <span class="ru">говорить <s>по телефоне</s></span> → ✓ <span class="ru">по телефон<b>у</b></span>. "По" bilan предложный emas, <b>дательный</b> ishlatiladi.</div>
+
+  <h3>Boshqa predloglar</h3>
+  <table>
+    <tr><th>Predlog</th><th>Ma'no</th><th>Misol</th></tr>
+    <tr><td class="hl">благодаря</td><td>tufayli (ijobiy natija)</td><td><span class="ru">Благодаря <b>команде</b> мы закончили вовремя.</span></td></tr>
+    <tr><td class="hl">вопреки</td><td>qaramay</td><td><span class="ru">Вопреки <b>прогнозу</b>, продажи выросли.</span></td></tr>
+    <tr><td class="hl">согласно</td><td>muvofiq, ko'ra</td><td><span class="ru">Согласно <b>договору</b>, оплата через 10 дней.</span></td></tr>
+    <tr><td class="hl">навстречу</td><td>qarshi tomonga</td><td><span class="ru">Он шёл навстречу <b>клиенту</b>.</span></td></tr>
+    <tr><td class="hl">подобно</td><td>o'xshab (kitobiy)</td><td><span class="ru">Подобно <b>другим</b> стартапам…</span></td></tr>
+  </table>
+  <div class="note"><b>Nozik nuqta:</b> <span class="ru">благодаря</span> faqat <b>yaxshi</b> natija uchun ishlatiladi. Yomon natija uchun <span class="ru">из-за + Р.п.</span> to'g'ri: <span class="ru">Из-за ошибки мы потеряли клиента.</span><br>
+  <span class="ru">Согласно договор<b>у</b></span> ✓ — zamonaviy me'yor. <span class="ru">согласно <s>договора</s></span> — eskirgan/kanselyar shakl, imtihonda xato deb hisoblanadi.</div>
+</div>
+
+<h2>8. Mashqlar</h2>
+<p class="sub">Har blokni to'ldirib, "Tekshirish" tugmasini bosing. Xato bo'lsa — izohi chiqadi.</p>
+
+<!-- MASHQ 1 -->
+<div class="ex" id="ex1">
+  <h3>Mashq 1 — To'g'ri tugallanishni tanlang (otlar)</h3>
+  <div id="ex1q"></div>
+  <button class="check" onclick="checkMC('ex1')">Tekshirish</button>
+  <button class="reset" onclick="resetBlock('ex1')">Qayta</button>
+  <span class="score" id="ex1s"></span>
+</div>
+
+<!-- MASHQ 2 -->
+<div class="ex" id="ex2">
+  <h3>Mashq 2 — Qavsdagi so'zni дательный падежga qo'ying (yozing)</h3>
+  <p class="hint">Faqat bitta so'zni yozing (agar sifat bo'lsa — ikkalasini).</p>
+  <div id="ex2q"></div>
+  <button class="check" onclick="checkInput('ex2')">Tekshirish</button>
+  <button class="reset" onclick="resetBlock('ex2')">Qayta</button>
+  <span class="score" id="ex2s"></span>
+</div>
+
+<!-- MASHQ 3 -->
+<div class="ex" id="ex3">
+  <h3>Mashq 3 — Olmoshlar</h3>
+  <div id="ex3q"></div>
+  <button class="check" onclick="checkInput('ex3')">Tekshirish</button>
+  <button class="reset" onclick="resetBlock('ex3')">Qayta</button>
+  <span class="score" id="ex3s"></span>
+</div>
+
+<!-- MASHQ 4 -->
+<div class="ex" id="ex4">
+  <h3>Mashq 4 — Predlog tanlang (к / по / благодаря / согласно)</h3>
+  <div id="ex4q"></div>
+  <button class="check" onclick="checkMC('ex4')">Tekshirish</button>
+  <button class="reset" onclick="resetBlock('ex4')">Qayta</button>
+  <span class="score" id="ex4s"></span>
+</div>
+
+<!-- MASHQ 5 -->
+<div class="ex" id="ex5">
+  <h3>Mashq 5 — Xatoni toping: qaysi variant TO'G'RI?</h3>
+  <div id="ex5q"></div>
+  <button class="check" onclick="checkMC('ex5')">Tekshirish</button>
+  <button class="reset" onclick="resetBlock('ex5')">Qayta</button>
+  <span class="score" id="ex5s"></span>
+</div>
+
+<div class="total" id="total">Umumiy natija: <span id="totalScore">0 / 45</span></div>
+
+</div>
+
+<script>
+/* ============ MA'LUMOTLAR ============ */
+const DATA = {
+  ex1: { type:'mc', items:[
+    {q:'Я позвонил ___ (директор).', o:['директору','директора','директоре'], a:0, e:'Erkak jins, undosh bilan → +у. "Звонить" doim Д.п. talab qiladi.'},
+    {q:'Мы отправили прайс ___ (клиентка).', o:['клиентке','клиентки','клиенткой'], a:0, e:'Ayol jins -а → -е: клиентка → клиентке.'},
+    {q:'Он написал письмо ___ (Мария).', o:['Марие','Марии','Марией'], a:1, e:'-ия bilan tugagan so\'zlar → -ии. "Марие" — juda keng tarqalgan xato.'},
+    {q:'Скажите ___ (учитель) спасибо.', o:['учителю','учителя','учителе'], a:0, e:'Erkak jins -ь → -ю: учитель → учителю.'},
+    {q:'Мы помогаем ___ (студенты, ko\'plik).', o:['студентам','студентов','студентами'], a:0, e:'Ko\'plik Д.п. → -ам. "Помогать" Д.п. talab qiladi.'},
+    {q:'Позвони ___ (мать).', o:['матери','мать','матерью'], a:0, e:'Ayol jins -ь → -и, lekin мать da negiz kengayadi: мат<b>ер</b>и.'},
+    {q:'Он объяснил задачу ___ (вся команда).', o:['всей команде','всю команду','всей команды'], a:0, e:'Ayol jins: sifat/olmosh -ей/-ой, ot -е → всей команде.'},
+    {q:'Экскурсия по ___ (город).', o:['городу','города','городе'], a:0, e:'"По" predlogi Д.п. bilan → по городу (shahar bo\'ylab).'},
+    {q:'Подарок ___ (мой брат).', o:['моему брату','моего брата','моим братом'], a:0, e:'Erkak jins: olmosh -ому, ot -у → моему брату.'},
+    {q:'Мы рады ___ (новые клиенты).', o:['новым клиентам','новых клиентов','новыми клиентами'], a:0, e:'Ko\'plik: sifat -ым, ot -ам → новым клиентам.'}
+  ]},
+  ex2: { type:'in', items:[
+    {q:'Менеджер ответил <b>___</b> (заказчик).', a:['заказчику'], e:'Erkak jins undosh → +у.'},
+    {q:'Я подарил цветы <b>___</b> (жена).', a:['жене'], e:'Ayol jins -а → -е.'},
+    {q:'Мы доверяем <b>___</b> (эта компания).', a:['этой компании'], e:'Ayol jins: этой + компании (-ия → -ии!).'},
+    {q:'Он рассказал историю <b>___</b> (дети).', a:['детям'], e:'Istisno: дети → детям.'},
+    {q:'Скидка предоставляется <b>___</b> (все партнёры).', a:['всем партнёрам'], e:'Ko\'plik: всем + партнёрам.'},
+    {q:'Я иду к <b>___</b> (врач).', a:['врачу'], e:'к + Д.п. → врачу.'},
+    {q:'Согласно <b>___</b> (договор), оплата через 10 дней.', a:['договору'], e:'Согласно + Д.п. → договору (договора EMAS).'},
+    {q:'Специалист по <b>___</b> (маркетинг).', a:['маркетингу'], e:'по + Д.п. → маркетингу.'},
+    {q:'Мы работаем по <b>___</b> (выходные).', a:['выходным'], e:'Takroriy vaqt: по выходным (ko\'plik Д.п.).'},
+    {q:'Благодаря <b>___</b> (хорошая команда) проект готов.', a:['хорошей команде'], e:'Благодаря + Д.п.: хорошей команде.'},
+    {q:'Она улыбнулась <b>___</b> (ребёнок).', a:['ребёнку','ребенку'], e:'Улыбаться кому → ребёнку.'},
+    {q:'Пришлите документы по <b>___</b> (электронная почта).', a:['электронной почте'], e:'по + Д.п.: электронной почте.'}
+  ]},
+  ex3: { type:'in', items:[
+    {q:'___ (я) 30 лет.', a:['мне'], e:'Yosh: Мне 30 лет ("У меня 30 лет" — xato).'},
+    {q:'___ (мы) нужно обсудить бюджет.', a:['нам'], e:'надо/нужно + Д.п. → Нам нужно.'},
+    {q:'Этот дизайн понравился ___ (клиент).', a:['клиенту'], e:'Нравиться кому → клиенту.'},
+    {q:'Я подошёл к ___ (он).', a:['нему'], e:'Predlogdan keyin он → нему (н- qo\'shiladi).'},
+    {q:'Позвони ___ (она) сегодня.', a:['ей'], e:'Predlogsiz она → ей.'},
+    {q:'Я отправлю отчёт к ___ (они) в офис.', a:['ним'], e:'Predlogdan keyin они → ним.'},
+    {q:'___ (вы) помочь?', a:['вам'], e:'Вам помочь? — "Sizga yordam beraymi?"'},
+    {q:'Купи ___ (себя) новый ноутбук.', a:['себе'], e:'себя → себе (Д.п.).'}
+  ]},
+  ex4: { type:'mc', items:[
+    {q:'___ команде мы закончили проект вовремя.', o:['Благодаря','Из-за','Согласно'], a:0, e:'Ijobiy natija → благодаря + Д.п. (Из-за — salbiy sabab uchun, Р.п. bilan).'},
+    {q:'Вечером я иду ___ другу.', o:['к','по','в'], a:0, e:'Odamga yo\'nalish → к + Д.п.'},
+    {q:'Мы обсудили это ___ телефону.', o:['по','к','на'], a:0, e:'Vosita → по телефону.'},
+    {q:'___ договору, срок — 15 дней.', o:['Согласно','Благодаря','К'], a:0, e:'Rasmiy hujjatga muvofiqlik → согласно + Д.п.'},
+    {q:'Отчёт должен быть готов ___ понедельнику.', o:['к','по','на'], a:0, e:'Vaqt chegarasi ("dushanbagacha") → к + Д.п.'},
+    {q:'Я хожу в спортзал ___ вторникам и четвергам.', o:['по','к','в'], a:0, e:'Takrorlanuvchi vaqt → по + Д.п. ko\'plik.'}
+  ]},
+  ex5: { type:'mc', items:[
+    {q:'Qaysi to\'g\'ri?', o:['Я звоню менеджеру.','Я звоню менеджера.'], a:0, e:'Звонить кому? → менеджеру (Д.п.). Bu — o\'zbek tilida so\'zlashuvchilar uchun eng tez-tez xato.'},
+    {q:'Qaysi to\'g\'ri?', o:['Мне нравится этот проект.','Я нравлюсь этот проект.'], a:0, e:'"Yoqmoq" teskari qurilma: МНЕ (Д.п.) + нравится + ПРОЕКТ (И.п. — ega).'},
+    {q:'Qaysi to\'g\'ri?', o:['Мне 25 лет.','У меня 25 лет.'], a:0, e:'Yosh doim Д.п. bilan: Мне 25 лет.'},
+    {q:'Qaysi to\'g\'ri?', o:['Он помогает мне.','Он помогает меня.'], a:0, e:'Помогать кому? → мне (Д.п.), меня emas.'},
+    {q:'Qaysi to\'g\'ri?', o:['Мне нужно работать.','Я нужно работать.'], a:0, e:'Shaxssiz konstruksiya: КОМУ + нужно + infinitiv.'},
+    {q:'Qaysi to\'g\'ri?', o:['Мы говорили по телефону.','Мы говорили по телефоне.'], a:0, e:'по + Д.п. → по телефону (по телефоне — предложный, xato).'},
+    {q:'Qaysi to\'g\'ri?', o:['Я написал письмо Марии.','Я написал письмо Марие.'], a:0, e:'-ия → -ии: Мария → Марии.'},
+    {q:'Qaysi to\'g\'ri?', o:['Клиентам понравился новый сайт.','Клиенты понравился новый сайт.'], a:0, e:'Kimga yoqdi → клиентам (Д.п.), ega esa "новый сайт".'},
+    {q:'Qaysi to\'g\'ri?', o:['Согласно контракту оплата в срок.','Согласно контракта оплата в срок.'], a:0, e:'Zamonaviy me\'yor: согласно + Д.п. (контракту).'}
+  ]}
+};
+
+const state = {};
+const norm = s => s.trim().toLowerCase().replace(/ё/g,'е').replace(/\s+/g,' ');
+
+/* ============ RENDER ============ */
+function render(){
+  for(const key in DATA){
+    const blk = DATA[key];
+    const box = document.getElementById(key+'q');
+    box.innerHTML = '';
+    state[key] = {sel:{}, done:false};
+    blk.items.forEach((it,i)=>{
+      const d = document.createElement('div');
+      d.className='q'; d.id = key+'_'+i;
+      let html = '<div class="qtext">'+(i+1)+'. '+it.q+'</div>';
+      if(blk.type==='mc'){
+        html += '<div class="opts">'+it.o.map((o,j)=>
+          `<button class="opt" data-k="${key}" data-i="${i}" data-j="${j}">${o}</button>`).join('')+'</div>';
+      } else {
+        html += `<input type="text" data-k="${key}" data-i="${i}" placeholder="javob...">`;
+      }
+      html += '<div class="fb" id="fb_'+key+'_'+i+'"></div>';
+      d.innerHTML = html;
+      box.appendChild(d);
+    });
+    document.getElementById(key+'s').textContent='';
+  }
+  document.querySelectorAll('.opt').forEach(b=>{
+    b.onclick = e=>{
+      const k=b.dataset.k, i=b.dataset.i, j=+b.dataset.j;
+      if(state[k].done) return;
+      document.querySelectorAll(`.opt[data-k="${k}"][data-i="${i}"]`).forEach(x=>x.classList.remove('sel'));
+      b.classList.add('sel');
+      state[k].sel[i]=j;
+    };
+  });
+  document.querySelectorAll('input[type=text]').forEach(inp=>{
+    inp.addEventListener('keydown',e=>{
+      if(e.key==='Enter'){
+        const k=inp.dataset.k;
+        DATA[k].type==='mc'?checkMC(k):checkInput(k);
+      }
+    });
+  });
+  updateTotal();
+}
+
+/* ============ TEKSHIRISH ============ */
+function checkMC(key){
+  const blk = DATA[key]; let right=0;
+  blk.items.forEach((it,i)=>{
+    const sel = state[key].sel[i];
+    const fb = document.getElementById('fb_'+key+'_'+i);
+    const qd = document.getElementById(key+'_'+i);
+    const btns = document.querySelectorAll(`.opt[data-k="${key}"][data-i="${i}"]`);
+    btns.forEach((b,j)=>{
+      b.classList.remove('sel');
+      if(j===it.a) b.classList.add('right');
+      else if(j===sel) b.classList.add('wrong');
+    });
+    fb.classList.add('show');
+    if(sel===it.a){
+      right++; qd.className='q good';
+      fb.className='fb show ok'; fb.innerHTML='✓ To\'g\'ri. <small>'+it.e+'</small>';
+    } else {
+      qd.className='q bad';
+      fb.className='fb show no';
+      fb.innerHTML='✗ To\'g\'ri javob: <b>'+it.o[it.a]+'</b><small>'+it.e+'</small>';
+    }
+  });
+  state[key].done=true; state[key].score=right;
+  document.getElementById(key+'s').textContent = right+' / '+blk.items.length;
+  updateTotal();
+}
+
+function checkInput(key){
+  const blk = DATA[key]; let right=0;
+  blk.items.forEach((it,i)=>{
+    const inp = document.querySelector(`input[data-k="${key}"][data-i="${i}"]`);
+    const fb = document.getElementById('fb_'+key+'_'+i);
+    const qd = document.getElementById(key+'_'+i);
+    const val = norm(inp.value);
+    const ok = it.a.some(a=>norm(a)===val);
+    fb.classList.add('show');
+    if(ok){
+      right++; qd.className='q good'; inp.style.borderColor='var(--ok)';
+      fb.className='fb show ok'; fb.innerHTML='✓ To\'g\'ri. <small>'+it.e+'</small>';
+    } else {
+      qd.className='q bad'; inp.style.borderColor='var(--err)';
+      fb.className='fb show no';
+      fb.innerHTML='✗ To\'g\'ri javob: <b>'+it.a[0]+'</b><small>'+it.e+'</small>';
+    }
+  });
+  state[key].done=true; state[key].score=right;
+  document.getElementById(key+'s').textContent = right+' / '+blk.items.length;
+  updateTotal();
+}
+
+function resetBlock(key){
+  const blk=DATA[key];
+  state[key]={sel:{},done:false,score:0};
+  blk.items.forEach((it,i)=>{
+    document.getElementById(key+'_'+i).className='q';
+    const fb=document.getElementById('fb_'+key+'_'+i);
+    fb.className='fb'; fb.innerHTML='';
+    document.querySelectorAll(`.opt[data-k="${key}"][data-i="${i}"]`)
+      .forEach(b=>b.className='opt');
+    const inp=document.querySelector(`input[data-k="${key}"][data-i="${i}"]`);
+    if(inp){inp.value='';inp.style.borderColor='var(--line)';}
+  });
+  document.getElementById(key+'s').textContent='';
+  updateTotal();
+}
+
+function updateTotal(){
+  let s=0,t=0;
+  for(const k in DATA){ t+=DATA[k].items.length; s+= (state[k]&&state[k].score)||0; }
+  const el=document.getElementById('totalScore');
+  el.textContent = s+' / '+t;
+  const pct = s/t;
+  el.style.color = s===0 ? 'var(--acc)' : pct>=0.8 ? 'var(--ok)' : pct>=0.5 ? 'var(--uz)' : 'var(--err)';
+}
+
+render();
+</script>
+</body>
+</html>

@@ -9,7 +9,7 @@ import dictVerbs from "../src/data/dict-verbs.js";
 import { declineNoun, declineAdjective } from "../src/decline.js";
 
 const errors = [];
-const STATIC = ["h", "p", "callout", "examples", "vocab", "dialog", "table"];
+const STATIC = ["h", "p", "callout", "examples", "vocab", "dialog", "table", "embed"];
 
 /* --- Darslar --- */
 const catIds = new Set();

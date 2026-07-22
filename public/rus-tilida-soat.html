@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rus tilida soat — to'liq qo'llanma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d1424;
+    --bg2:#111a2e;
+    --panel:#18233c;
+    --panel2:#1e2b47;
+    --line:#2b3a5c;
+    --text:#e9edf6;
+    --muted:#93a1bd;
+    --brass:#e0b44a;      /* soat, sarlavha aksenti */
+    --brass-dim:#8a7534;
+    --past:#48b7dd;       /* 1-yarim: keyingi soat (rodit.) */
+    --past-bg:rgba(72,183,221,.12);
+    --tonext:#ef8b52;     /* 2-yarim: без */
+    --tonext-bg:rgba(239,139,82,.12);
+    --half:#c58cf0;       /* yarim/chorak */
+    --half-bg:rgba(197,140,240,.12);
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:
+      radial-gradient(1200px 600px at 80% -10%, #1a2745 0%, transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, #16203a 0%, transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    padding:clamp(16px,4vw,48px) clamp(14px,4vw,24px) 80px;
+  }
+  .wrap{max-width:940px;margin:0 auto}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    display:grid;grid-template-columns:1fr;gap:28px;
+    padding:clamp(22px,4vw,40px);
+    background:linear-gradient(160deg,var(--panel) 0%,var(--bg2) 100%);
+    border:1px solid var(--line);border-radius:var(--radius);
+    margin-bottom:34px;
+  }
+  @media(min-width:720px){.hero{grid-template-columns:auto 1fr;align-items:center;gap:40px}}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--brass);margin-bottom:14px;
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;font-weight:700;
+    font-size:clamp(1.9rem,5vw,2.9rem);line-height:1.05;letter-spacing:-.02em;
+    margin-bottom:14px;
+  }
+  h1 .accent{color:var(--brass)}
+  .hero p{color:var(--muted);font-size:1.02rem;max-width:46ch}
+  .hero p b{color:var(--text);font-weight:600}
+  .chip-past{color:var(--past);font-weight:600}
+  .chip-next{color:var(--tonext);font-weight:600}
+
+  /* ---------- CLOCK ---------- */
+  .clock-wrap{display:flex;justify-content:center}
+  .clock{width:min(240px,64vw);height:auto}
+  .clock-legend{display:flex;gap:16px;margin-top:14px;justify-content:center;flex-wrap:wrap;font-size:.8rem}
+  .lg{display:flex;align-items:center;gap:7px;color:var(--muted)}
+  .dot{width:11px;height:11px;border-radius:3px;flex:none}
+
+  /* ---------- SECTIONS ---------- */
+  section{margin:38px 0}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+  .sec-num{
+    font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--brass);
+    border:1px solid var(--brass-dim);border-radius:6px;padding:2px 8px;flex:none;
+  }
+  h2{
+    font-family:'Space Grotesk',sans-serif;font-weight:600;
+    font-size:clamp(1.25rem,3.4vw,1.6rem);letter-spacing:-.01em;
+  }
+  .sec-sub{color:var(--muted);margin:2px 0 20px;font-size:.97rem}
+
+  .card{
+    background:var(--panel);border:1px solid var(--line);
+    border-radius:var(--radius);padding:clamp(16px,3vw,26px);
+  }
+  .card + .card{margin-top:16px}
+
+  /* ---------- TABLES ---------- */
+  table{width:100%;border-collapse:collapse;font-size:.95rem}
+  th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}
+  th{
+    font-family:'JetBrains Mono',monospace;font-weight:600;font-size:.72rem;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  }
+  tr:last-child td{border-bottom:none}
+  td .ru{font-weight:600}
+  .num{font-family:'JetBrains Mono',monospace;color:var(--brass);font-weight:600;white-space:nowrap}
+  .tr-uz{color:var(--muted);font-size:.85rem}
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+  /* ---------- RULE BOX ---------- */
+  .rule{
+    display:flex;gap:14px;align-items:flex-start;
+    padding:16px 18px;border-radius:12px;margin:18px 0 4px;
+    background:var(--past-bg);border:1px solid rgba(72,183,221,.35);
+  }
+  .rule.next{background:var(--tonext-bg);border-color:rgba(239,139,82,.35)}
+  .rule.half{background:var(--half-bg);border-color:rgba(197,140,240,.35)}
+  .rule .ic{font-size:1.15rem;flex:none;line-height:1.4}
+  .rule .txt{font-size:.96rem}
+  .rule b.p{color:var(--past)}
+  .rule b.n{color:var(--tonext)}
+  .rule b.h{color:var(--half)}
+  .formula{
+    font-family:'JetBrains Mono',monospace;font-size:.9rem;
+    background:var(--bg);border:1px solid var(--line);border-radius:8px;
+    padding:10px 14px;margin:14px 0;display:inline-block;color:var(--text);
+  }
+  .formula .p{color:var(--past)}
+  .formula .n{color:var(--tonext)}
+  .formula .h{color:var(--half)}
+  .formula .b{color:var(--brass)}
+
+  .ex{
+    display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:12px;
+  }
+  .ex-item{
+    display:flex;align-items:baseline;gap:9px;
+    padding:8px 12px;background:var(--bg);border-radius:9px;border:1px solid var(--line);
+  }
+  .ex-item .t{font-family:'JetBrains Mono',monospace;color:var(--brass);font-weight:600}
+  .ex-item .r{font-weight:500}
+
+  .split{display:grid;gap:16px}
+  @media(min-width:640px){.split{grid-template-columns:1fr 1fr}}
+
+  .pill{
+    display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.7rem;
+    letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:20px;margin-bottom:12px;
+  }
+  .pill.past{background:var(--past-bg);color:var(--past);border:1px solid rgba(72,183,221,.4)}
+  .pill.next{background:var(--tonext-bg);color:var(--tonext);border:1px solid rgba(239,139,82,.4)}
+
+  /* ---------- MISTAKES ---------- */
+  .warn{border-color:rgba(239,139,82,.4)}
+  .mistake{padding:14px 0;border-bottom:1px solid var(--line)}
+  .mistake:last-child{border-bottom:none;padding-bottom:0}
+  .mistake:first-child{padding-top:0}
+  .bad{color:#f0857f}.good{color:#6fd08a}
+  .mistake .lbl{font-family:'JetBrains Mono',monospace;font-weight:600;margin-right:8px}
+  .mistake .why{color:var(--muted);font-size:.9rem;margin-top:5px}
+
+  footer{color:var(--muted);font-size:.85rem;text-align:center;margin-top:44px;padding-top:22px;border-top:1px solid var(--line)}
+
+  .ru{color:var(--text)}
+  b{font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="clock-wrap">
+      <div>
+        <svg class="clock" viewBox="0 0 200 200" role="img" aria-label="Soat">
+          <!-- split fills -->
+          <path d="M100 100 L100 18 A82 82 0 0 1 100 182 Z" fill="var(--past-bg)"/>
+          <path d="M100 100 L100 182 A82 82 0 0 1 100 18 Z" fill="var(--tonext-bg)"/>
+          <circle cx="100" cy="100" r="82" fill="none" stroke="var(--brass)" stroke-width="2.5"/>
+          <line x1="100" y1="18" x2="100" y2="182" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="3 4"/>
+          <!-- ticks -->
+          <g stroke="var(--brass)" stroke-width="2">
+            <line x1="100" y1="24" x2="100" y2="34"/>
+            <line x1="176" y1="100" x2="166" y2="100"/>
+            <line x1="100" y1="176" x2="100" y2="166"/>
+            <line x1="24" y1="100" x2="34" y2="100"/>
+          </g>
+          <!-- numbers -->
+          <g fill="var(--muted)" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle">
+            <text x="100" y="48">12</text>
+            <text x="156" y="104">3</text>
+            <text x="100" y="162">6</text>
+            <text x="44" y="104">9</text>
+          </g>
+          <!-- side labels -->
+          <text x="138" y="78" fill="var(--past)" font-family="Inter" font-size="9" font-weight="600" text-anchor="middle">0–30</text>
+          <text x="62" y="130" fill="var(--tonext)" font-family="Inter" font-size="9" font-weight="600" text-anchor="middle">30–60</text>
+          <!-- hands -->
+          <line x1="100" y1="100" x2="100" y2="55" stroke="var(--text)" stroke-width="3.5" stroke-linecap="round"/>
+          <line x1="100" y1="100" x2="138" y2="118" stroke="var(--brass)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="100" cy="100" r="4.5" fill="var(--brass)"/>
+        </svg>
+        <div class="clock-legend">
+          <span class="lg"><span class="dot" style="background:var(--past)"></span>keyingi soatga</span>
+          <span class="lg"><span class="dot" style="background:var(--tonext)"></span>без bilan</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="eyebrow">Который час? · A2–B1</div>
+      <h1>Rus tilida <span class="accent">soat</span> aytish</h1>
+      <p>Eng muhim tushuncha — soat ikkiga bo'linadi.
+      <b>Birinchi yarmida</b> (<span class="chip-past">0–30 daqiqa</span>) daqiqalar <b>keyingi</b> soatga qarab sanaladi.
+      <b>Ikkinchi yarmida</b> (<span class="chip-next">30–60</span>) daqiqalar <b>«без»</b> orqali keyingi soatdan ayriladi. Quyida hammasi bosqichma-bosqich.</p>
+    </div>
+  </div>
+
+  <!-- 1. ASKING -->
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2>«Soat nechchi?» — so'rash</h2></div>
+    <p class="sec-sub">Ikkita asosiy savol bor: soatni so'rash va «nechchida?» deb so'rash.</p>
+    <div class="card table-scroll">
+      <table>
+        <tr><th>Rus tilida</th><th>Ma'nosi</th><th>Izoh</th></tr>
+        <tr><td class="ru">Который час?</td><td class="tr-uz">Soat nechchi?</td><td class="tr-uz">Rasmiyroq</td></tr>
+        <tr><td class="ru">Сколько времени?</td><td class="tr-uz">Soat nechchi?</td><td class="tr-uz">Kundalik, ko'proq ishlatiladi</td></tr>
+        <tr><td class="ru">В котором часу?</td><td class="tr-uz">Nechchida? (soat nechchida)</td><td class="tr-uz">Vaqt so'rash</td></tr>
+        <tr><td class="ru">Во сколько?</td><td class="tr-uz">Nechchida?</td><td class="tr-uz">Kundalik variant</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- 2. FULL HOURS -->
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2>To'liq soatlar — час / часа / часов</h2></div>
+    <p class="sec-sub">«Soat» so'zi raqamga qarab uch xil shaklga kiradi. Bu — sonlar bilan kelishik qoidasining aynan o'zi.</p>
+
+    <div class="rule">
+      <span class="ic">📐</span>
+      <span class="txt">
+        <b>1</b> bilan tugasa (11 dan tashqari) → <b class="p">час</b> &nbsp;·&nbsp;
+        <b>2, 3, 4</b> bilan tugasa (12–14 dan tashqari) → <b class="p">часа</b> &nbsp;·&nbsp;
+        <b>5–20</b> va boshqalar → <b class="p">часов</b>
+      </span>
+    </div>
+
+    <div class="card table-scroll" style="margin-top:16px">
+      <table>
+        <tr><th>Vaqt</th><th>Rus tilida</th><th>Shakl</th></tr>
+        <tr><td class="num">1:00</td><td class="ru">час <span class="tr-uz">(yoki один час)</span></td><td class="tr-uz">час</td></tr>
+        <tr><td class="num">2:00</td><td class="ru">два часа́</td><td class="tr-uz">часа</td></tr>
+        <tr><td class="num">4:00</td><td class="ru">четы́ре часа́</td><td class="tr-uz">часа</td></tr>
+        <tr><td class="num">5:00</td><td class="ru">пять часо́в</td><td class="tr-uz">часов</td></tr>
+        <tr><td class="num">11:00</td><td class="ru">оди́ннадцать часо́в</td><td class="tr-uz">часов</td></tr>
+        <tr><td class="num">21:00</td><td class="ru">два́дцать оди́н час</td><td class="tr-uz">час</td></tr>
+        <tr><td class="num">23:00</td><td class="ru">два́дцать три часа́</td><td class="tr-uz">часа</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- 3. PARTS OF DAY -->
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2>Kun qismlari — утра / дня / вечера / ночи</h2></div>
+    <p class="sec-sub">Kundalik nutqda 12 soatlik tizim ishlatiladi, shuning uchun qaysi payt ekanini aniqlash kerak. Bu so'zlar rodit. kelishikda turadi.</p>
+    <div class="card table-scroll">
+      <table>
+        <tr><th>Kun qismi</th><th>Taxminan</th><th>Misol</th></tr>
+        <tr><td class="ru">но́чи <span class="tr-uz">(tun)</span></td><td class="tr-uz">00:00–04:00</td><td class="ru">два часа́ но́чи <span class="tr-uz">— tunning 2 si</span></td></tr>
+        <tr><td class="ru">утра́ <span class="tr-uz">(tong/ertalab)</span></td><td class="tr-uz">04:00–11:00</td><td class="ru">семь часо́в утра́ <span class="tr-uz">— ertalabki 7</span></td></tr>
+        <tr><td class="ru">дня <span class="tr-uz">(kunduz)</span></td><td class="tr-uz">12:00–17:00</td><td class="ru">три часа́ дня <span class="tr-uz">— kunduzgi 3</span></td></tr>
+        <tr><td class="ru">ве́чера <span class="tr-uz">(kech)</span></td><td class="tr-uz">17:00–24:00</td><td class="ru">во́семь часо́в ве́чера <span class="tr-uz">— kechki 8</span></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- 4. FIRST HALF -->
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2>Birinchi yarim (0–30 daqiqa) — «o'tgan» daqiqalar</h2></div>
+    <span class="pill past">Bu qismni yaxshi yodlang</span>
+    <p class="sec-sub">Bu — o'zbek/ingliz tilidan eng ko'p farq qiladigan joy. Daqiqalar <b>keyingi</b> soatning nechanchisi ekaniga qarab aytiladi.</p>
+
+    <div class="rule">
+      <span class="ic">🔑</span>
+      <span class="txt">
+        <b class="p">Daqiqa</b> + keyingi soatning <b class="p">tartib soni (rodit. kelishik)</b>.<br>
+        Ya'ni 1 dan 2 gacha bo'lgan davr rus tilida «ikkinchi soat» (второй час) hisoblanadi — shuning uchun 1:15 da biz «ikkinchining» daqiqalarini aytamiz.
+      </span>
+    </div>
+    <div class="formula"><span class="p">пятна́дцать мину́т</span> <span class="p">второ́го</span> &nbsp;=&nbsp; 1:15</div>
+
+    <div class="split" style="margin-top:8px">
+      <div class="card">
+        <h2 style="font-size:1.05rem;margin-bottom:12px">Keyingi soatning tartib soni <span class="tr-uz">(rodit.)</span></h2>
+        <div class="table-scroll">
+        <table>
+          <tr><th>Soat</th><th>«...ning» shakli</th></tr>
+          <tr><td class="num">12→1</td><td class="ru">пе́рвого</td></tr>
+          <tr><td class="num">1→2</td><td class="ru">второ́го</td></tr>
+          <tr><td class="num">2→3</td><td class="ru">тре́тьего</td></tr>
+          <tr><td class="num">3→4</td><td class="ru">четвёртого</td></tr>
+          <tr><td class="num">4→5</td><td class="ru">пя́того</td></tr>
+          <tr><td class="num">5→6</td><td class="ru">шесто́го</td></tr>
+          <tr><td class="num">6→7</td><td class="ru">седьмо́го</td></tr>
+          <tr><td class="num">7→8</td><td class="ru">восьмо́го</td></tr>
+          <tr><td class="num">8→9</td><td class="ru">девя́того</td></tr>
+          <tr><td class="num">9→10</td><td class="ru">деся́того</td></tr>
+          <tr><td class="num">10→11</td><td class="ru">оди́ннадцатого</td></tr>
+          <tr><td class="num">11→12</td><td class="ru">двена́дцатого</td></tr>
+        </table>
+        </div>
+      </div>
+      <div class="card">
+        <h2 style="font-size:1.05rem;margin-bottom:12px">Misollar</h2>
+        <div class="ex" style="flex-direction:column">
+          <div class="ex-item"><span class="t">1:05</span><span class="r">пять мину́т второ́го</span></div>
+          <div class="ex-item"><span class="t">2:10</span><span class="r">де́сять мину́т тре́тьего</span></div>
+          <div class="ex-item"><span class="t">3:20</span><span class="r">два́дцать мину́т четвёртого</span></div>
+          <div class="ex-item"><span class="t">5:25</span><span class="r">два́дцать пять мину́т шесто́го</span></div>
+          <div class="ex-item"><span class="t">8:23</span><span class="r">два́дцать три мину́ты девя́того</span></div>
+          <div class="ex-item"><span class="t">12:12</span><span class="r">двена́дцать мину́т пе́рвого</span></div>
+        </div>
+        <p class="tr-uz" style="margin-top:12px">Eslatma: «минута» ham raqamga moslashadi — <b class="ru">1</b> → мину́та, <b class="ru">2–4</b> → мину́ты, <b class="ru">5–20</b> → мину́т.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. HALF & QUARTER -->
+  <section>
+    <div class="sec-head"><span class="sec-num">05</span><h2>Yarim va chorak — половина / четверть</h2></div>
+    <p class="sec-sub">Ular ham «keyingi soat» mantig'i bilan ishlaydi.</p>
+
+    <div class="rule half">
+      <span class="ic">½</span>
+      <span class="txt">
+        <b class="h">полови́на</b> + keyingi soat (rodit.) = yarim.
+        Kundalik nutqda qisqargan shakl: <b class="h">пол-</b> + soat.
+      </span>
+    </div>
+    <div class="split" style="margin-top:8px">
+      <div class="card">
+        <h2 style="font-size:1.05rem;margin-bottom:12px">Yarim (:30)</h2>
+        <div class="ex" style="flex-direction:column">
+          <div class="ex-item"><span class="t">1:30</span><span class="r">полови́на второ́го <span class="tr-uz">/ полвторо́го</span></span></div>
+          <div class="ex-item"><span class="t">6:30</span><span class="r">полови́на седьмо́го <span class="tr-uz">/ полседьмо́го</span></span></div>
+          <div class="ex-item"><span class="t">12:30</span><span class="r">полови́на пе́рвого <span class="tr-uz">/ полпе́рвого</span></span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2 style="font-size:1.05rem;margin-bottom:12px">Chorak (:15)</h2>
+        <div class="ex" style="flex-direction:column">
+          <div class="ex-item"><span class="t">4:15</span><span class="r">че́тверть пя́того</span></div>
+          <div class="ex-item"><span class="t">7:15</span><span class="r">че́тверть восьмо́го</span></div>
+          <div class="ex-item"><span class="t">12:15</span><span class="r">че́тверть пе́рвого</span></div>
+        </div>
+        <p class="tr-uz" style="margin-top:12px">четверть = «chorak» (15 daqiqa).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. SECOND HALF -->
+  <section>
+    <div class="sec-head"><span class="sec-num">06</span><h2>Ikkinchi yarim (31–59) — без bilan</h2></div>
+    <span class="pill next">Ikkinchi asosiy tizim</span>
+    <p class="sec-sub">Yarimdan o'tgach, biz keyingi soatga qancha <b>qolganini</b> aytamiz — «без» (siz, -siz) predlogi bilan.</p>
+
+    <div class="rule next">
+      <span class="ic">🔑</span>
+      <span class="txt">
+        <b class="n">без</b> + qolgan daqiqa <b class="n">(rodit.)</b> + keyingi soat <b class="n">(bosh kelishik / atalish shakli)</b>.<br>
+        Ya'ni «shu daqiqasiz soat necha bo'ladi».
+      </span>
+    </div>
+    <div class="formula"><span class="n">без</span> <span class="n">че́тверти</span> <span class="b">два</span> &nbsp;=&nbsp; 1:45 <span class="tr-uz">(«chorak kam ikki»)</span></div>
+
+    <div class="split" style="margin-top:8px">
+      <div class="card">
+        <h2 style="font-size:1.05rem;margin-bottom:12px">Daqiqaning «без» shakli</h2>
+        <div class="table-scroll">
+        <table>
+          <tr><th>Daqiqa</th><th>без ...</th></tr>
+          <tr><td class="num">5</td><td class="ru">без пяти́</td></tr>
+          <tr><td class="num">10</td><td class="ru">без десяти́</td></tr>
+          <tr><td class="num">15</td><td class="ru">без че́тверти <span class="tr-uz">/ без пятна́дцати</span></td></tr>
+          <tr><td class="num">20</td><td class="ru">без двадцати́</td></tr>
+          <tr><td class="num">25</td><td class="ru">без двадцати́ пяти́</td></tr>
+        </table>
+        </div>
+      </div>
+      <div class="card">
+        <h2 style="font-size:1.05rem;margin-bottom:12px">Misollar</h2>
+        <div class="ex" style="flex-direction:column">
+          <div class="ex-item"><span class="t">1:45</span><span class="r">без че́тверти два</span></div>
+          <div class="ex-item"><span class="t">2:40</span><span class="r">без двадцати́ три</span></div>
+          <div class="ex-item"><span class="t">5:50</span><span class="r">без десяти́ шесть</span></div>
+          <div class="ex-item"><span class="t">6:55</span><span class="r">без пяти́ семь</span></div>
+          <div class="ex-item"><span class="t">8:35</span><span class="r">без двадцати́ пяти́ де́вять</span></div>
+          <div class="ex-item"><span class="t">12:45</span><span class="r">без че́тверти час</span></div>
+        </div>
+        <p class="tr-uz" style="margin-top:12px">Diqqat: soat bu yerda <b>bosh kelishikda</b> — два, три, шесть, семь, час.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. PREPOSITIONS -->
+  <section>
+    <div class="sec-head"><span class="sec-num">07</span><h2>«Nechchida?» — vaqt bildirish</h2></div>
+    <p class="sec-sub">Bir voqea qachon bo'lishini aytishda predloglar o'zgaradi. Bu joy ko'pincha chalkashtiriladi.</p>
+    <div class="card table-scroll">
+      <table>
+        <tr><th>Holat</th><th>Qanday</th><th>Misol</th></tr>
+        <tr><td class="tr-uz">To'liq soat</td><td class="ru">в + soat</td><td class="ru">в семь часо́в <span class="tr-uz">— 7 da</span></td></tr>
+        <tr><td class="tr-uz">O'tgan daqiqa (0–30)</td><td class="ru">в + daqiqa mину́т ...ого</td><td class="ru">в де́сять мину́т тре́тьего <span class="tr-uz">— 2:10 da</span></td></tr>
+        <tr><td class="tr-uz">Chorak</td><td class="ru">в че́тверть ...</td><td class="ru">в че́тверть шесто́го <span class="tr-uz">— 5:15 da</span></td></tr>
+        <tr><td class="tr-uz">Yarim</td><td class="ru">в полови́не ... <span class="tr-uz">(предл.!)</span></td><td class="ru">в полови́не второ́го <span class="tr-uz">— 1:30 da</span></td></tr>
+        <tr><td class="tr-uz">без bilan (31–59)</td><td class="ru">«в» qo'yilmaydi</td><td class="ru">без че́тверти два <span class="tr-uz">— 1:45 da</span></td></tr>
+      </table>
+    </div>
+    <div class="rule">
+      <span class="ic">💡</span>
+      <span class="txt">Diqqat qiling: <b class="ru">в половине</b> — bu yerda «половина» <b>предложный</b> kelishikka kiradi (в половин<b>е</b>), qolgan joylarda «в» dan keyin винительный ishlatiladi. «без» esa umuman «в» talab qilmaydi.</span>
+    </div>
+  </section>
+
+  <!-- 8. OFFICIAL -->
+  <section>
+    <div class="sec-head"><span class="sec-num">08</span><h2>Rasmiy (24-soatlik) format</h2></div>
+    <p class="sec-sub">Jadval, vokzal, TV, poyezd/samolyot vaqtlari, rasmiy nutq — bularda 24 soatlik tizim, daqiqalar oddiy ketma-ketlikda aytiladi. «keyingi soat» / «без» ishlatilmaydi.</p>
+    <div class="card table-scroll">
+      <table>
+        <tr><th>Vaqt</th><th>To'liq</th><th>Qisqa</th></tr>
+        <tr><td class="num">14:30</td><td class="ru">четы́рнадцать часо́в три́дцать мину́т</td><td class="ru">четы́рнадцать три́дцать</td></tr>
+        <tr><td class="num">09:05</td><td class="ru">де́вять часо́в пять мину́т</td><td class="ru">де́вять ноль пять</td></tr>
+        <tr><td class="num">18:45</td><td class="ru">восемна́дцать часо́в со́рок пять мину́т</td><td class="ru">восемна́дцать со́рок пять</td></tr>
+        <tr><td class="num">00:00</td><td class="ru">но́ль часо́в</td><td class="ru">по́лночь <span class="tr-uz">(yarim tun)</span></td></tr>
+        <tr><td class="num">12:00</td><td class="ru">двена́дцать часо́в</td><td class="ru">по́лдень <span class="tr-uz">(tush payti)</span></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- 9. COMMON MISTAKES -->
+  <section>
+    <div class="sec-head"><span class="sec-num">09</span><h2>Tez-tez uchraydigan xatolar</h2></div>
+    <div class="card warn">
+      <div class="mistake">
+        <div><span class="lbl bad">✗ де́сять мину́т пе́рвого</span> <span class="tr-uz">— 1:10 deb o'ylab</span></div>
+        <div><span class="lbl good">✓ де́сять мину́т второ́го</span> <span class="tr-uz">= 1:10</span></div>
+        <div class="why">«пе́рвого» aslida 12:10 ni bildiradi! N soatdan o'tgan daqiqalar uchun har doim <b>N+1</b> ning tartib sonini oling. Bu — eng ko'p qilinadigan xato.</div>
+      </div>
+      <div class="mistake">
+        <div><span class="lbl bad">✗ полвторо́го</span> <span class="tr-uz">= 2:30 deb o'ylab</span></div>
+        <div><span class="lbl good">✓ полвторо́го</span> <span class="tr-uz">= 1:30</span></div>
+        <div class="why">«пол + ikkinchi» = ikkinchining yarmi, ya'ni 1:30. 2:30 emas.</div>
+      </div>
+      <div class="mistake">
+        <div><span class="lbl bad">✗ без пять шесть</span></div>
+        <div><span class="lbl good">✓ без пяти́ шесть</span> <span class="tr-uz">= 5:55</span></div>
+        <div class="why">«без» dan keyin daqiqa <b>rodit. kelishikda</b> (пять→пяти́), soat esa bosh kelishikda (шесть) qoladi.</div>
+      </div>
+      <div class="mistake">
+        <div><span class="lbl bad">✗ два час</span> &nbsp;/&nbsp; <span class="lbl bad">✗ пять часа</span></div>
+        <div><span class="lbl good">✓ два часа́</span> &nbsp;·&nbsp; <span class="good">пять часо́в</span></div>
+        <div class="why">Son bilan «час» kelishishini unutmang: 2–4 → часа, 5+ → часов.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Rus tili ustozi · «Который час?» mavzusi (A2–B1)<br>
+    Mashq (bo'sh joyni to'ldirish yoki test) kerak bo'lsa ayting — shu mavzu bo'yicha interaktiv mashq tayyorlab beraman.
+  </footer>
+
+</div>
+</body>
+</html>

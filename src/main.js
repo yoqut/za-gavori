@@ -58,22 +58,6 @@ function renderSidebar(route) {
   });
   bar.append(dictBtn);
 
-  const clockBtn = document.createElement("a");
-  clockBtn.className = "nav-item tool-link";
-  clockBtn.href = "/rus-tilida-soat.html";
-  clockBtn.target = "_blank";
-  clockBtn.rel = "noopener";
-  clockBtn.innerHTML = `<span class="tick" style="border:0">🕐</span><span>Soat</span>`;
-  bar.append(clockBtn);
-
-  const clockGenBtn = document.createElement("a");
-  clockGenBtn.className = "nav-item tool-link";
-  clockGenBtn.href = "/soat-generator.html";
-  clockGenBtn.target = "_blank";
-  clockGenBtn.rel = "noopener";
-  clockGenBtn.innerHTML = `<span class="tick" style="border:0">⏱️</span><span>Soat generatori</span>`;
-  bar.append(clockGenBtn);
-
   categories.forEach((cat) => {
     const open = isCatOpen(cat.id, route);
 

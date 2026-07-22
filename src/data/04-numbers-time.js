@@ -1,5 +1,11 @@
 // Kategoriya 4 — Son va vaqt ifodasi (kitobning 106–110-betlari)
 
+// To'liq mustaqil sahifalar (dizayn + interaktiv generator). Xom HTML
+// sifatida import qilinadi va "embed" bloki orqali iframe'da chiziladi —
+// xuddi 02-cases-singular.js dagi datelniy-padej.html kabi.
+import soatFullHtml from "./rus-tilida-soat.html?raw";
+import soatGeneratorHtml from "./soat-generator.html?raw";
+
 export default {
   id: "num-time",
   emoji: "🕐",
@@ -223,6 +229,34 @@ export default {
             { ru: "до обе́да", uz: "tushlikdan oldin" },
             { ru: "че́рез час", uz: "bir soatdan keyin" },
           ],
+        },
+      ],
+    },
+
+    /* ---------------------------------------------------------------- */
+    {
+      id: "soat-full",
+      title: "Soat — to'liq qo'llanma",
+      subtitle: "«Который час?» mavzusi batafsil: keyingi soatga sanash, «без», rasmiy format va tez-tez uchraydigan xatolar.",
+      blocks: [
+        {
+          t: "embed",
+          title: "Rus tilida soat — to'liq qo'llanma",
+          html: soatFullHtml,
+        },
+      ],
+    },
+
+    /* ---------------------------------------------------------------- */
+    {
+      id: "soat-generator",
+      title: "Soat generatori",
+      subtitle: "Vaqtni tanlang — kundalik va rasmiy shakllar avtomatik hosil bo'ladi. Mashq qilish uchun qulay.",
+      blocks: [
+        {
+          t: "embed",
+          title: "Vaqt → rus tili generatori",
+          html: soatGeneratorHtml,
         },
       ],
     },
